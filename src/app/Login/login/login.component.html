@@ -1,0 +1,50 @@
+<div>
+  <div class="limiter">
+    <div class="container-login100">
+      <div class="wrap-login100">
+        <img src="assets/logo.png" alt="Logo" style="
+    margin-left: 80px;
+    margin-top: -40px;
+    height: 140px;">
+        <form nz-form class="login-form">
+          <nz-form-item>
+            <nz-form-control nzRequired nzErrorTip="Please Enter Valid Email">
+              <nz-input-group nzPrefixIcon="user">
+                <input type="email" name="email_id"
+                  pattern="^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$"
+                  [(ngModel)]="EMAIL_ID" nz-input placeholder="Email id" required />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control nzRequired nzErrorTip="Input is required">
+              <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
+                <input [type]="passwordVisible ? 'text' : 'password'" name="password" [(ngModel)]="PASSWORD" nz-input
+                  placeholder="Password" required />
+              </nz-input-group>
+              <ng-template #suffixTemplate>
+                <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                  (click)="passwordVisible = !passwordVisible"></i>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <div class="container-login100-form-btn">
+                <div class="wrap-login100-form-btn">
+                  <div class="login100-form-bgbtn"></div>
+
+                  <button nz-button class="login100-form-btn" (click)="login()" [nzLoading]="isloginSpinning"
+                    [nzType]="'primary'">
+                    Log in
+                  </button>
+                </div>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

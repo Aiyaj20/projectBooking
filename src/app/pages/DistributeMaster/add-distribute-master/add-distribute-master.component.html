@@ -1,0 +1,216 @@
+<div>
+  <form nz-form #websitebannerPage="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Name</nz-form-label>
+
+            <nz-form-control nzHasFeedback nzErrorTip="Please Enter  Name">
+              <input
+                nz-input
+                name="Name"
+                placeHolder="Enter Name"
+                required
+                [pattern]="namepatt"
+                [(ngModel)]="data.NAME"
+                maxlength="128"
+                required
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Email ID</nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip="Please Enter Valid Email"
+            >
+              <input
+                nz-input
+                autocomplete="off"
+                name="Emailid"
+                type="text"
+                [pattern]="emailpattern"
+                [(ngModel)]="data.EMAIL_ID"
+                placeHolder="Enter Email ID"
+                required
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Mobile No</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please Enter Mobile No">
+              <input
+                nz-input
+                autocomplete="off"
+                name="MobileNo"
+                [pattern]="mobpattern"
+                (keypress)="omit($event)"
+                type="text"
+                maxlength="10"
+                [(ngModel)]="data.MOBILE_NUMBER"
+                placeHolder="Enter Valid Mobile Number"
+                required
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-control nzErrorTip="Input is required">
+              <nz-form-label nzRequired nzNoColon>Password</nz-form-label>
+              <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
+                <input
+                  [type]="passwordVisible ? 'text' : 'password'"
+                  name="password"
+                  [(ngModel)]="data.PASSWORD"
+                  nz-input
+                  placeholder="Password"
+                  required
+                />
+              </nz-input-group>
+              <ng-template #suffixTemplate>
+                <i
+                  nz-icon
+                  [nzType]="passwordVisible ? 'eye' : 'eye-invisible'"
+                  (click)="passwordVisible = !passwordVisible"
+                ></i>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-control>
+              <nz-form-label nzRequired nzNoColon>Theater Name</nz-form-label>
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                nzMode="multiple"
+                nzPlaceHolder="Select Theater Name"
+                name="THEATRE_ID"
+                [(ngModel)]="data.THEATRE_ID"
+              >
+                <!-- <nz-option
+                  *ngFor="let data of DataList"
+                  [nzLabel]="data.NAME"
+                  [nzValue]="data.ID"
+                ></nz-option> -->
+                <nz-option
+                  nzLabel="{{ data.NAME }} / ({{ data.CITY_NAME }})"
+                  nzCustomContent
+                  *ngFor="let data of DataList"
+                  [nzValue]="data.ID"
+                >
+                  <span> {{ data.NAME }} ({{ data.CITY_NAME }}) </span>
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- nzMode="multiple" -->
+        </div>
+
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Address</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please Enter Address">
+              <textarea
+                nz-input
+                name="empaddress"
+                required
+                maxlength="256"
+                placeHolder="Enter Address"
+                [(ngModel)]="data.ADDRESS"
+                required
+              ></textarea>
+              <h6 style="color: red" *ngIf="data.ADDRESS != undefined">
+                {{ data.ADDRESS.length }}/256
+              </h6>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzNoColon>Status</nz-form-label>
+
+            <nz-form-control nzErrorTip="Status is required">
+              <nz-switch
+                name="status"
+                nzCheckedChildren="Active"
+                nzUnCheckedChildren="InActive"
+                [(ngModel)]="data.IS_ACTIVE"
+              ></nz-switch>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </nz-spin>
+
+    <div class="footer">
+      <button
+        type="button"
+        nz-button
+        (click)="close(websitebannerPage)"
+        class="ant-btn"
+        style="margin-right: 8px"
+      >
+        <span>Cancel</span>
+      </button>
+      <button
+        type="button"
+        class="ant-btn ant-btn-primary"
+        *ngIf="!data.ID"
+        nz-button
+        nz-dropdown
+        [nzDropdownMenu]="menu"
+        [nzLoading]="isSpinning"
+        (click)="save(false, websitebannerPage)"
+      >
+        <span>Save & Close</span>
+      </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li
+            nz-menu-item
+            class="menuc"
+            style="border-radius: 4px; background-color: #40a9ff"
+          >
+            <a style="color: white" (click)="save(true, websitebannerPage)"
+              >Save & New</a
+            >
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+      <button
+        type="button"
+        class="ant-btn ant-btn-primary"
+        nz-button
+        [nzLoading]="isSpinning"
+        *ngIf="data.ID"
+        (click)="save(false, websitebannerPage)"
+      >
+        <span>Update & Close</span>
+      </button>
+    </div>
+
+    <div class="header">
+      <button
+        type="button"
+        nz-button
+        (click)="close(websitebannerPage)"
+        class="ant-btn"
+        style="margin-right: 8px"
+      >
+        <i nz-icon nzType="close" nzTheme="outline"></i>
+      </button>
+    </div>
+  </form>
+</div>

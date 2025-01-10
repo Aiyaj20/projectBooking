@@ -1,0 +1,368 @@
+<div>
+  <!-- <form nz-form #form8> -->
+  <form nz-form #websitebannerPage="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon> City Name </nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip=" Select City Name ">
+              <nz-select
+                nzShowSearch
+                [nzLoading]="isSpinning"
+                nzAllowClear
+                nzPlaceHolder="Please Select City "
+                name="cityid"
+                [(ngModel)]="data.CITY_ID"
+                required
+              >
+                <nz-option
+                  *ngFor="let role of city"
+                  [nzValue]="role.ID"
+                  [nzLabel]="role.NAME"
+                >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon> Theater Name</nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip="Please Enter Theater Name"
+            >
+              <input
+                nz-input
+                name="demo1name"
+                [pattern]="namepatt"
+                [(ngModel)]="data.NAME"
+                maxlength="128"
+                required
+                placeholder="Enter Theater Name"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Theater Address</nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip=" Please Enter Theater Address"
+            >
+              <textarea
+                nz-input
+                style="width: 100%"
+                rows="3"
+                name="contactaddress"
+                [(ngModel)]="data.ADDRESS"
+                placeholder="Enter Theater Address"
+                maxlength="256"
+                required
+              ></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- 
+  <div nz-col nzSpan="24">
+    <nz-form-item>
+      <nz-form-label nzRequired nzNoColon> Location </nz-form-label>
+      <nz-form-control>
+        <google-map
+          height="150px"
+          width="100%"
+          [center]="center"
+          [zoom]="zoom"
+          (mapClick)="addMarker2($event)"
+        >
+          <map-marker
+            [position]="markerPositions"
+            [options]="markerOptions"
+          ></map-marker>
+        </google-map>
+      </nz-form-control>
+    </nz-form-item>
+  </div>  -->
+
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzNoColon>Latitude</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please Enter Latitude">
+              <input
+                nz-input
+                name="latitude"
+                maxlength="128"
+                [(ngModel)]="data.LATITUDE"
+                maxlength="128"
+                placeholder="Enter Latitude"
+                required
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzNoColon>Longitude</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please Enter Longitude">
+              <input
+                nz-input
+                name="logitude"
+                maxlength="128"
+                [(ngModel)]="data.LONGITUDE"
+                maxlength="128"
+                placeholder="Enter Longitude"
+                required
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon> Theater Layout </nz-form-label>
+
+            <nz-form-control>
+              <button
+                nz-button
+                style="height: 28px; padding: 0px 7px; font-size: 12px"
+                (click)="fileInput.click()"
+              >
+                Select Layout
+                <input
+                  #fileInput
+                  name="otherimage"
+                  type="file"
+                  accept=".png,.jpg,.jpeg,.pdf,.svg"
+                  (change)="onFileSelected1($event)"
+                  style="display: none"
+                  required
+                />
+              </button>
+
+              <span
+                *ngIf="
+                  image != '' ||
+                  (data.ACTUAL_LAYOUT_IMAGE != '' &&
+                    data.ACTUAL_LAYOUT_IMAGE != null)
+                "
+              >
+                <button
+                  (click)="removeImage()"
+                  [nzSize]="'default'"
+                  nz-button
+                  style="margin-left: 20%"
+                >
+                  <nz-badge>
+                    <i
+                      style="font-size: 15px; color: red"
+                      nz-icon
+                      nzType="delete"
+                    ></i>
+                  </nz-badge>
+                </button>
+              </span>
+            </nz-form-control>
+          </nz-form-item>
+
+          <div
+            *ngIf="
+              (image != '' && !image.includes('.pdf')) ||
+              (data.ACTUAL_LAYOUT_IMAGE != '' &&
+                data.ACTUAL_LAYOUT_IMAGE != null &&
+                !data.ACTUAL_LAYOUT_IMAGE.includes('.pdf'))
+            "
+            style="justify-content: center; display: flex; margin-top: 20px"
+          >
+            <img
+              *ngIf="
+                !image.includes('.pdf') &&
+                !data.ACTUAL_LAYOUT_IMAGE.includes('.pdf')
+              "
+              nz-image
+              width="50%"
+              height="50%"
+              style="border-radius: 5px"
+              nzSrc="{{
+                image
+                  ? image
+                  : imgUrl +
+                    'actualTheatreLayoutImage/' +
+                    data.ACTUAL_LAYOUT_IMAGE
+              }}"
+            />
+            <!-- {{imgUrl+'actualTheatreLayoutImage/' + data.ACTUAL_LAYOUT_IMAGE}} -->
+          </div>
+          <div
+            *ngIf="
+              (image != '' && image.includes('.pdf')) ||
+              (data.ACTUAL_LAYOUT_IMAGE != '' &&
+                data.ACTUAL_LAYOUT_IMAGE != null &&
+                data.ACTUAL_LAYOUT_IMAGE.includes('.pdf'))
+            "
+            style="justify-content: center; display: flex; margin-top: 20px"
+          >
+            <!-- {{ pdfurl }} -->
+            <span
+              (click)="
+                openPdfInNewTab(
+                  imgUrl +
+                    'actualTheatreLayoutImage/' +
+                    data.ACTUAL_LAYOUT_IMAGE
+                )
+              "
+              style="cursor: pointer"
+              >View Pdf
+              <i
+                nz-icon
+                nzType="eye"
+                nzTheme="twotone"
+                style="cursor: pointer"
+                (click)="
+                  openPdfInNewTab(
+                    imgUrl +
+                      'actualTheatreLayoutImage/' +
+                      data.ACTUAL_LAYOUT_IMAGE
+                  )
+                "
+              ></i
+            ></span>
+
+            <!-- <pdf-viewer
+              [src]="pdfurl"
+              [render-text]="true"
+              [original-size]="true"
+            
+            ></pdf-viewer> -->
+            <!-- <img
+            nz-image
+            width="50%"
+            height="50%"
+            style="border-radius: 5px"
+            nzSrc="{{
+              image
+                ? image
+                : imgUrl +
+                  'actualTheatreLayoutImage/' +
+                  data.ACTUAL_LAYOUT_IMAGE
+            }}"
+          /> -->
+            <!-- {{imgUrl+'actualTheatreLayoutImage/' + data.ACTUAL_LAYOUT_IMAGE}} -->
+          </div>
+          <br />
+          <div
+            nz-col
+            nzSpan="23"
+            *ngIf="
+              fileURL != null ||
+              (data.ACTUAL_LAYOUT_IMAGE != '' &&
+                data.ACTUAL_LAYOUT_IMAGE != null)
+            "
+            style="font-size: 15px; text-align: center"
+          >
+            <span style="font-size: 12px">
+              {{
+                fileURL?.name ? fileURL?.name : data.ACTUAL_LAYOUT_IMAGE
+              }}</span
+            >
+          </div>
+
+          <!--  -->
+        </div>
+
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label nzNoColon nzRequired>Sequence No</nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip="Please Enter Sequence number"
+            >
+              <input
+                nz-input
+                name="sequenceno"
+                maxlength="5"
+                (keypress)="omit($event)"
+                [(ngModel)]="data.SEQUENCE_NUMBER"
+                placeholder="Enter Seq No"
+                required
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="4"></div>
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label nzNoColon class="IS_ACTIVE" class="status"
+              >Status</nz-form-label
+            >
+            <nz-form-control>
+              <nz-switch
+                name="IS_ACTIVE"
+                [(ngModel)]="data.STATUS"
+                required
+                nzCheckedChildren="Active"
+                nzUnCheckedChildren="InActive"
+              ></nz-switch>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </nz-spin>
+  </form>
+
+  <div class="footer">
+    <button
+      type="button"
+      nz-button
+      (click)="close()"
+      class="ant-btn"
+      style="margin-right: 8px"
+    >
+      <span>Cancel</span>
+    </button>
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      *ngIf="!data.ID"
+      nz-button
+      nz-dropdown
+      [nzDropdownMenu]="menu"
+      [nzLoading]="isSpinning"
+      (click)="save(false, websitebannerPage)"
+    >
+      <span>Save & Close</span>
+    </button>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          class="menuc"
+          style="border-radius: 4px; background-color: #40a9ff"
+        >
+          <a style="color: white" (click)="save(true, websitebannerPage)"
+            >Save & New</a
+          >
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      nz-button
+      [nzLoading]="isSpinning"
+      *ngIf="data.ID"
+      (click)="save(false, websitebannerPage)"
+    >
+      <span>Update & Close</span>
+    </button>
+  </div>
+</div>

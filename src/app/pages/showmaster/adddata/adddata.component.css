@@ -1,0 +1,92 @@
+nz-form-item{
+    display: inline-block;
+    margin-bottom: 5px;
+    width: -webkit-fill-available;
+    padding: 0px 10px;
+  }
+  .header {
+    position: absolute;
+    top: 0px;
+    padding: 10px 930px;
+  }
+  
+  .header1 {
+    position: absolute;
+    top: 0px;
+    padding: 10px 410px;
+  }
+  
+  #file-input::-webkit-file-upload-button {
+    visibility: hidden;
+    user-select: none;
+  }
+  
+  #file-input {
+    display: none;
+    user-select: none;
+  }
+  
+  .borderA {
+    border: 2px solid gray;
+    border-radius: 5px;
+    height: 150px;    
+    padding-top: 44px;
+    /* display: table-cell; */
+    vertical-align: middle;
+  }
+  
+  .img-wrap .close {
+    position: absolute;
+    top: 5px;
+    right: 0px;
+    z-index: 100;
+  }
+  
+  table {
+    font-family: arial, sans-serif;
+    width: 100%;
+  }
+  
+  td {
+    font-family: arial, sans-serif;
+    text-align: center;
+    padding: 8px;
+  }
+  
+  th {
+    font-family: arial, sans-serif;
+    background-color: white;
+    top: 0;
+    position: sticky;
+    text-align: center;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 3px;
+    height: auto;
+  }
+  
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px rgb(208, 237, 150);
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: yellowgreen;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #7bac10;
+  }
+
+  .ip{
+    width: 200px;
+  }
+  .ipe{background-color: transparent; border: 0px solid; text-align: center;}

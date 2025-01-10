@@ -1,0 +1,470 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="10" nzMd="10" nzLg="10" nzXl="10">
+    <div class="formname">
+      <b> {{ formTitle }} </b>
+    </div>
+  </div>
+
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="14"
+    nzMd="14"
+    nzLg="14"
+    nzXl="14"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <!-- <button nz-button nzType="primary" [appExport]="listOfData1" id="downloadExcel" (click)="DownloadExcel()"
+          [nzLoading]="loadingRecords" fileName="Dramamaster"><i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button> -->
+
+        <!-- <button nz-button nzType="primary" [nzLoading]="loadingRecords" (click)="DownloadExcel()">
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+
+        <button nz-button nzType="primary" hidden="true" [nzLoading]="loadingRecords" id="downloadExcel"
+          [appExport]="listOfData1" fileName="Dramamaster">
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button> -->
+
+        <button
+          nz-button
+          nzType="primary"
+          *ngIf="listOfData1.length > 0"
+          [appExport]="listOfData1"
+          (click)="DownloadExcel()"
+          [nzLoading]="loadingRecords"
+          fileName="Dramamaster"
+        >
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+        <button
+          nz-button
+          nzType="primary"
+          *ngIf="listOfData1.length == 0"
+          (click)="DownloadExcel()"
+          [nzLoading]="loadingRecords"
+          fileName="Dramamaster"
+        >
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button [nzType]="isFilterApplied" (click)="showFilter()">
+          <i nz-icon nzType="filter"></i>
+        </button>
+      </nz-form-item>
+
+      <nz-form-item style="width: 40%">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="postsearch"
+            (keyup)="keyup($event)"
+            (keydown.enter)="onKeypressEvent($event)"
+            autocomplete="off"
+            [(ngModel)]="searchText"
+            nz-input
+            placeholder="Search Record"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button
+            nz-button
+            nzType="primary"
+            (click)="search(true)"
+            id="button"
+            nzSearch
+          >
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+          <i nz-icon nzType="plus"></i>Add New Drama
+        </button>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+<br />
+
+<div nz-row style="display: flex; justify-content: center">
+  <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+    <div style="text-align: center">
+      <div nz-row (click)="clickevent('A')">
+        <div
+          nz-col
+          nzSpan="6"
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            border-radius: 5px 0 0 5px;
+            background-color: rgb(205, 205, 249);
+            font-size: 12px;
+          "
+        >
+          <span *ngIf="enabled != undefined && enabled != null">{{
+            enabled
+          }}</span>
+        </div>
+        <div
+          nz-col
+          nzSpan="18"
+          [ngStyle]="
+            showcolor0 == 1
+              ? { background: 'rgb(158 158 209)' }
+              : { background: ' rgb(227, 227, 249)' }
+          "
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            margin-left: -1px;
+            border-radius: 0 5px 5px 0;
+            background-color: rgb(227, 227, 249);
+            font-size: 12px;
+          "
+        >
+          <!-- All -->
+          <span (ngModelChange)="clickevent('A')">Enabled</span>
+          <!-- <button (ngModelChange)="clickevent('all')" name="APPROVAL_STATUS" [(ngModel)]="APPROVAL_STATUS" ></button>   -- -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+    <div style="text-align: center">
+      <div nz-row (click)="clickevent('D')">
+        <div
+          nz-col
+          nzSpan="6"
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            border-radius: 5px 0 0 5px;
+            background-color: rgb(205, 205, 249);
+            font-size: 12px;
+          "
+        >
+          <span *ngIf="disabled != undefined && disabled != null">{{
+            disabled
+          }}</span>
+        </div>
+        <div
+          nz-col
+          nzSpan="18"
+          [ngStyle]="
+            showcolor1 == 1
+              ? { background: 'rgb(158 158 209)' }
+              : { background: ' rgb(227, 227, 249)' }
+          "
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            margin-left: -1px;
+            border-radius: 0 5px 5px 0;
+            background-color: rgb(227, 227, 249);
+            font-size: 12px;
+          "
+        >
+          <!-- All -->
+          <span (ngModelChange)="clickevent('D')">Disabled</span>
+          <!-- <button (ngModelChange)="clickevent('all')" name="APPROVAL_STATUS" [(ngModel)]="APPROVAL_STATUS" ></button>   -- -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <div class="filter {{ filterClass }}">
+      <div class="filter-box">
+        <form nz-form>
+          <div nz-row nzGutter="8">
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon><b>From Date</b></nz-form-label>
+                <nz-date-picker
+                  name="startdate"
+                  style="width: 100%"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="FROM_DATE"
+                  nzPlaceHolder="Select Start Date."
+                  (nzOnOpenChange)="moduleStartDateHandle($event)"
+                  (ngModelChange)="startDateChange()"
+                >
+                </nz-date-picker>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon><b>To Date</b></nz-form-label>
+                <nz-date-picker
+                  #EndDatePicker
+                  style="width: 100%"
+                  name="enddate"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="TO_DATE"
+                  nzPlaceHolder="Select End Date."
+                ></nz-date-picker>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-label nzNoColon><b>Select City</b></nz-form-label>
+              <nz-form-item>
+                <nz-select
+                  nz-input
+                  name="cityselect"
+                  [(ngModel)]="cityid"
+                  nzPlaceHolder="Select City"
+                  nzAllowClear
+                  nzShowSearch
+                >
+                  <nz-option
+                    *ngFor="let option of cities"
+                    [nzValue]="option.ID"
+                    [nzLabel]="option.NAME"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="8">
+              <nz-form-label nzNoColon></nz-form-label>
+              <nz-form-item style="margin-left: 10px">
+                <button
+                  style="margin-right: 10px"
+                  nz-button
+                  [nzLoading]="isSpinning"
+                  nzType="primary"
+                  (click)="applyFilter()"
+                  nzJustify="end"
+                >
+                  <i nz-icon nzType="filter"></i>Apply filter
+                </button>
+                <button nz-button nzType="primary" (click)="clearFilter()">
+                  <i nz-icon nzType="filter"></i>Clear Filter
+                </button>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br />
+
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table
+      class="my-scroll no-wrap1"
+      nzBordered
+      #contactInfoTable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzScroll]="{ x: '1470px', y: '420px' }"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+    >
+      <thead>
+        <tr>
+          <th nzWidth="10px" style="text-align: center" nzLeft>
+            <b> Copy </b>
+          </th>
+          <th nzWidth="10px" style="text-align: center" nzLeft>
+            <b> Action </b>
+          </th>
+
+          <th
+            nzColumnKey="{{ 'SEQUENCE_NUMBER' }}"
+            [nzSortFn]="true"
+            nzWidth="12px"
+            style="text-align: center"
+          >
+            <b> Seq No. </b>
+          </th>
+
+          <th
+            nzColumnKey="{{ 'NAME' }}"
+            [nzSortFn]="true"
+            nzWidth="30px"
+            style="text-align: center"
+          >
+            <b>Drama Name </b>
+          </th>
+          <th
+            nzColumnKey="{{ 'CITY_NAME' }}"
+            [nzSortFn]="true"
+            nzWidth="20px"
+            style="text-align: center"
+          >
+            <b>City Name </b>
+          </th>
+          <th
+            nzColumnKey="{{ 'CAST_NAMES' }}"
+            [nzSortFn]="true"
+            nzWidth="30px"
+            style="text-align: center"
+          >
+            <b> Cast Name </b>
+          </th>
+
+          <th
+            nzColumnKey="{{ 'FROM_DATE' }}"
+            [nzSortFn]="true"
+            nzWidth="18px"
+            style="text-align: center"
+          >
+            <b> From Date </b>
+          </th>
+          <th
+            nzColumnKey="{{ 'TO_DATE' }}"
+            [nzSortFn]="true"
+            nzWidth="18px"
+            style="text-align: center"
+          >
+            <b> To Date </b>
+          </th>
+          <th
+            nzColumnKey="{{ 'SHORT_CODE' }}"
+            [nzSortFn]="true"
+            nzWidth="18px"
+            style="text-align: center"
+          >
+            <b> Short Code </b>
+          </th>
+          <th
+            nzColumnKey="{{ 'STATUS' }}"
+            [nzSortFn]="true"
+            nzWidth="15px"
+            style="text-align: center"
+          >
+            <b> Status </b>
+          </th>
+        </tr>
+      </thead>
+      <tbody style="text-align: center">
+        <tr *ngFor="let data of contactInfoTable.data">
+          <td style="text-align: center" nzLeft>
+            <a (click)="addnew(data)"> Copy </a>
+          </td>
+          <td style="text-align: center" nzLeft>
+            <a (click)="edit(data)"> Edit </a>
+          </td>
+
+          <td style="white-space: pre-line">{{ data["SEQUENCE_NUMBER"] }}</td>
+
+          <td
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-align: left;
+            "
+            nz-tooltip
+            [nzTooltipTitle]="data['NAME']"
+            nzTooltipPlacement="top"
+          >
+            {{ data["NAME"] }}
+          </td>
+          <td
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-align: left;
+            "
+            nz-tooltip
+            [nzTooltipTitle]="data['CITY_NAME']"
+            nzTooltipPlacement="top"
+          >
+            {{ data["CITY_NAME"] }}
+          </td>
+          <td
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-align: left;
+            "
+            nz-tooltip
+            [nzTooltipTitle]="data['CAST_NAMES']"
+            nzTooltipPlacement="top"
+          >
+            {{ data["CAST_NAMES"] }}
+          </td>
+
+          <td style="white-space: pre-line">
+            {{ data["FROM_DATE"] | date : "dd-MM-yyyy" }}
+          </td>
+
+          <td style="white-space: pre-line">
+            {{ data["TO_DATE"] | date : "dd-MM-yyyy" }}
+          </td>
+          <td style="white-space: pre-line">{{ data["SHORT_CODE"] }}</td>
+          <td style="text-align: center; white-space: pre-line">
+            <i
+              nz-icon
+              *ngIf="data['STATUS']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['STATUS']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+<div *ngIf="drawerVisible">
+  <nz-drawer
+    [nzBodyStyle]="{
+      height: 'calc(100% - 55px)',
+      overflow: 'auto',
+      'padding-bottom': '53px'
+    }"
+    [nzClosable]="true"
+    [nzMask]="true"
+    [nzMaskClosable]="false"
+    [nzWidth]="1000"
+    [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitleTemplate"
+    (nzOnClose)="drawerClose()"
+    (nzKeyboard)="(true)"
+  >
+    <ng-container *nzDrawerContent>
+      <app-add-drama
+        [list]="list"
+        [drawerClose]="closeCallback"
+        [drawerVisible]="drawerVisible"
+        [data]="drawerData"
+        [InupuDisabled]="InupuDisabled"
+      ></app-add-drama>
+    </ng-container>
+    <ng-template #drawerTitleTemplate>
+      <b>
+        {{ drawerTitle }}
+      </b>
+    </ng-template>
+  </nz-drawer>
+</div>

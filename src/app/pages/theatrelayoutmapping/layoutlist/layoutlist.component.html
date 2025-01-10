@@ -1,0 +1,101 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname"> <b> {{formTitle}} </b></div>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex;justify-content: flex-end">
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input type="text" name="search" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input
+            placeholder="Search" />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" (click)="search(true)" nzSearch><i nz-icon nzType="search"></i></button>
+        </ng-template>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+          <i nz-icon nzType="plus"></i>Add New Theatre layout
+        </button>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+
+<br />
+<button (click)="open()">Layout</button>
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table class="my-scroll no-wrap1" nzBordered #documentsTable nzShowSizeChanger [nzFrontPagination]="false"
+      [nzData]="dataList" [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ x: '1400px', y: '420px' }"
+      [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)">
+      <thead style="text-align: center;">
+        <tr>
+          <th nzWidth="5px" style="font-weight: bold;text-align: center;">Action</th>
+          <th nzWidth="10px" style="font-weight: bold;text-align: center;" [nzSortFn]="true">Theatre Name</th>
+
+
+
+          <th nzWidth="10px" style="font-weight: bold;text-align: center;" nzColumnKey="DOCUMENT_NAME"
+            [nzSortFn]="true">Layout Name </th>
+          <th nzWidth="10px" style="font-weight: bold;text-align: center;" nzColumnKey="DEFAULT_RATE" [nzSortFn]="true">
+            Default Rate</th>
+          <!-- <th nzWidth="10px" style="font-weight: bold;text-align: center;" nzColumnKey="IS_ACTIVE" [nzSortFn]="true">Status</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of documentsTable.data" style="text-align: center;">
+          <td>
+            <a (click)="edit(data)">Edit</a>
+          </td>
+
+
+          <td style="text-align: left;white-space: pre-line;">{{data['DOCUMENT_TYPE']}}</td>
+          <td style="text-align: left;white-space: pre-line;">{{data['DOCUMENT_NAME']}}</td>
+          <td style="text-align: center;">{{data['DEFAULT_RATE']}}</td>
+          <!-- <td>
+              <i nz-icon *ngIf="data['IS_ACTIVE']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#52c41a'"></i>
+              <i nz-icon *ngIf="!data['IS_ACTIVE']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#f50'"></i>
+            </td> -->
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="450" [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+  <ng-container *nzDrawerContent>
+    <!-- <app-addgurav></app-addgurav> -->
+    <app-layoutadd [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData">
+    </app-layoutadd>
+  </ng-container>
+</nz-drawer>
+
+
+
+<!-- <nz-drawer [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }" [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="fillWidth" [nzVisible]="detailVisible"
+  [nzTitle]="detailDrawerTitle" (nzOnClose)="drawerClose3()" (nzKeyboard)="(true)">
+  <ng-container *nzDrawerContent>
+    <app-detailsmaintenance [detailMaintenanceID]="detailMaintenanceID" [drawerClose]="closeCallback3"
+      [detailsID]="detailsID" [drawerVisible]="drawerVisible"></app-detailsmaintenance>
+    
+  </ng-container>
+</nz-drawer> -->
+
+
+<nz-drawer [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="false" [nzWidth]="720" [nzVisible]="visible"
+  nzTitle="Layout Group" (nzOnClose)="close()">
+  <ng-container *nzDrawerContent>
+    <app-layoutbutton></app-layoutbutton>
+
+  </ng-container></nz-drawer>

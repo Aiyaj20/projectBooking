@@ -1,0 +1,822 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="10" nzMd="10" nzLg="10" nzXl="10">
+    <div class="formname"><b>Manage Shows</b></div>
+  </div>
+
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="14"
+    nzMd="14"
+    nzLg="14"
+    nzXl="14"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <button
+          nz-button
+          nz-tooltip
+          nzTooltipTitle="Excel"
+          nzTooltipPlacement="top"
+          (click)="importInExcel()"
+          nzType="primary"
+        >
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button [nzType]="isFilterApplied" (click)="showFilter()">
+          <i nz-icon nzType="filter"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item style="width: 40%">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="aboutsearch"
+            (keyup)="keyup($event)"
+            (keydown.enter)="onKeypressEvent($event)"
+            [(ngModel)]="searchText"
+            nz-input
+            placeholder=" Search Record"
+            autocomplete="off"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button
+            nz-button
+            nzType="primary"
+            (click)="search(true)"
+            id="button"
+            nzSearch
+          >
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+      <nz-form-item>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="drawerOpen()"
+          nzJustify="end"
+        >
+          <i nz-icon nzType="plus"></i> Add New Show
+        </button>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+<br />
+
+<!-- <nz-tabset nzType="card">
+
+  <nz-tab nzTitle="On Going" (click)="onGoingShow($event)"><app-oncoming></app-oncoming></nz-tab>
+  <nz-tab nzTitle="Up Coming"><app-upcoming></app-upcoming></nz-tab>
+  <nz-tab nzTitle="Cancel"><app-cancel></app-cancel></nz-tab> 
+</nz-tabset> -->
+
+<!-- <div nz-row class="my-box">
+  <div nz-col nzSpan="4">
+<nz-card style="width:100%; " (click)="onGoingShow($event)">  
+  On Going
+</nz-card>
+</div>
+<div nz-col nzSpan="1"></div>
+<div nz-col nzSpan="4">
+
+<nz-card style="width:100%; " (click)="upcomingShow($event)">  
+  Up Coming
+</nz-card>
+</div>
+<div nz-col nzSpan="1"></div>
+<div nz-col nzSpan="4">
+
+<nz-card style="width:100%; " (click)="completeShow($event)">  
+  Complete
+</nz-card>
+</div>
+</div> -->
+<div nz-row style="display: flex; justify-content: center">
+  <!-- <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+    <div style="text-align: center">
+      <div nz-row (click)="clickevent('A')">
+        <div
+          nz-col
+          nzSpan="6"
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            border-radius: 5px 0 0 5px;
+            background-color: rgb(205, 205, 249);
+            font-size: 12px;
+          "
+        >
+          <span *ngIf="enabled != undefined && enabled != null">{{
+            enabled
+          }}</span>
+        </div>
+        <div
+          nz-col
+          nzSpan="18"
+          [ngStyle]="
+            showcolor0 == 1
+              ? { background: 'rgb(158 158 209)' }
+              : { background: ' rgb(227, 227, 249)' }
+          "
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            margin-left: -1px;
+            border-radius: 0 5px 5px 0;
+            background-color: rgb(227, 227, 249);
+            font-size: 12px;
+          "
+        >
+          <span (ngModelChange)="clickevent('A')">Enabled</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+    <div style="text-align: center">
+      <div nz-row (click)="clickevent('D')">
+        <div
+          nz-col
+          nzSpan="6"
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            border-radius: 5px 0 0 5px;
+            background-color: rgb(205, 205, 249);
+            font-size: 12px;
+          "
+        >
+          <span *ngIf="disabled != undefined && disabled != null">{{
+            disabled
+          }}</span>
+        </div>
+        <div
+          nz-col
+          nzSpan="18"
+          [ngStyle]="
+            showcolor1 == 1
+              ? { background: 'rgb(158 158 209)' }
+              : { background: ' rgb(227, 227, 249)' }
+          "
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            margin-left: -1px;
+            border-radius: 0 5px 5px 0;
+            background-color: rgb(227, 227, 249);
+            font-size: 12px;
+          "
+        >
+          <span (ngModelChange)="clickevent('D')">Disabled</span>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+    <div style="text-align: center">
+      <div nz-row (click)="clickevent('S')">
+        <div
+          nz-col
+          nzSpan="6"
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            border-radius: 5px 0 0 5px;
+            background-color: rgb(205, 205, 249);
+            font-size: 12px;
+          "
+        >
+          <span *ngIf="ongoing != undefined && ongoing != null">{{
+            ongoing
+          }}</span>
+        </div>
+        <div
+          nz-col
+          nzSpan="18"
+          [ngStyle]="
+            showcolor2 == 1
+              ? { background: 'rgb(158 158 209)' }
+              : { background: ' rgb(227, 227, 249)' }
+          "
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            margin-left: -1px;
+            border-radius: 0 5px 5px 0;
+            background-color: rgb(227, 227, 249);
+            font-size: 12px;
+          "
+        >
+          <!-- All -->
+          <span (ngModelChange)="clickevent('S')">On Going</span>
+          <!-- <button (ngModelChange)="clickevent('all')" name="APPROVAL_STATUS" [(ngModel)]="APPROVAL_STATUS" ></button>   -- -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+    <div style="text-align: center">
+      <div nz-row (click)="clickevent('NSY')">
+        <div
+          nz-col
+          nzSpan="6"
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            border-radius: 5px 0 0 5px;
+            background-color: rgb(205, 205, 249);
+            font-size: 12px;
+          "
+        >
+          <span *ngIf="upcomming != undefined && upcomming != null">{{
+            upcomming
+          }}</span>
+        </div>
+        <div
+          nz-col
+          nzSpan="18"
+          [ngStyle]="
+            showcolor5 == 1
+              ? { background: 'rgb(158 158 209)' }
+              : { background: ' rgb(227, 227, 249)' }
+          "
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            margin-left: -1px;
+            border-radius: 0 5px 5px 0;
+            background-color: rgb(227, 227, 249);
+            font-size: 12px;
+          "
+        >
+          <!-- All -->
+          <span (ngModelChange)="clickevent('NSY')">Upcoming</span>
+          <!-- <button (ngModelChange)="clickevent('all')" name="APPROVAL_STATUS" [(ngModel)]="APPROVAL_STATUS" ></button>   -- -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+    <div style="text-align: center">
+      <div nz-row (click)="clickevent('BS')">
+        <div
+          nz-col
+          nzSpan="6"
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            border-radius: 5px 0 0 5px;
+            background-color: rgb(205, 205, 249);
+            font-size: 12px;
+          "
+        >
+          <span *ngIf="stopped != undefined && stopped != null">{{
+            stopped
+          }}</span>
+        </div>
+        <div
+          nz-col
+          nzSpan="18"
+          [ngStyle]="
+            showcolor3 == 1
+              ? { background: 'rgb(158 158 209)' }
+              : { background: ' rgb(227, 227, 249)' }
+          "
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            margin-left: -1px;
+            border-radius: 0 5px 5px 0;
+            background-color: rgb(227, 227, 249);
+            font-size: 12px;
+          "
+        >
+          <!-- All -->
+          <span (ngModelChange)="clickevent('BS')">Stopped</span>
+          <!-- <button (ngModelChange)="clickevent('all')" name="APPROVAL_STATUS" [(ngModel)]="APPROVAL_STATUS" ></button>   -- -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+    <div style="text-align: center">
+      <div nz-row (click)="clickevent('C')">
+        <div
+          nz-col
+          nzSpan="6"
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            border-radius: 5px 0 0 5px;
+            background-color: rgb(205, 205, 249);
+            font-size: 12px;
+          "
+        >
+          <span *ngIf="completed != undefined && completed != null">{{
+            completed
+          }}</span>
+        </div>
+        <div
+          nz-col
+          nzSpan="18"
+          [ngStyle]="
+            showcolor4 == 1
+              ? { background: 'rgb(158 158 209)' }
+              : { background: ' rgb(227, 227, 249)' }
+          "
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            margin-left: -1px;
+            border-radius: 0 5px 5px 0;
+            background-color: rgb(227, 227, 249);
+            font-size: 12px;
+          "
+        >
+          <!-- All -->
+          <span (ngModelChange)="clickevent('C')">Completed</span>
+          <!-- <button (ngModelChange)="clickevent('all')" name="APPROVAL_STATUS" [(ngModel)]="APPROVAL_STATUS" ></button>   -- -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+    <div style="text-align: center">
+      <div nz-row (click)="clickevent('SC')">
+        <div
+          nz-col
+          nzSpan="6"
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            border-radius: 5px 0 0 5px;
+            background-color: rgb(205, 205, 249);
+            font-size: 12px;
+          "
+        >
+          <span *ngIf="cancelled != undefined && cancelled != null">{{
+            cancelled
+          }}</span>
+        </div>
+        <div
+          nz-col
+          nzSpan="18"
+          [ngStyle]="
+            showcolor6 == 1
+              ? { background: 'rgb(158 158 209)' }
+              : { background: ' rgb(227, 227, 249)' }
+          "
+          style="
+            border: 1px solid blue;
+            padding: 5px;
+            margin-left: -1px;
+            border-radius: 0 5px 5px 0;
+            background-color: rgb(227, 227, 249);
+            font-size: 12px;
+          "
+        >
+          <!-- All -->
+          <span (ngModelChange)="clickevent('SC')">Show Cancelled</span>
+          <!-- <button (ngModelChange)="clickevent('all')" name="APPROVAL_STATUS" [(ngModel)]="APPROVAL_STATUS" ></button>   -- -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <div class="filter {{ filterClass }}">
+      <div class="filter-box">
+        <form nz-form>
+          <div nz-row nzGutter="8">
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon><b>Start Date</b></nz-form-label>
+                <nz-date-picker
+                  name="startdate"
+                  style="width: 100%"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="startValue"
+                  nzPlaceHolder="Select Start Date."
+                  (nzOnOpenChange)="moduleStartDateHandle($event)"
+                  (ngModelChange)="startDateChange()"
+                >
+                </nz-date-picker>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon><b>End Date</b></nz-form-label>
+                <nz-date-picker
+                  #EndDatePicker
+                  style="width: 100%"
+                  name="enddate"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="endValue"
+                  [nzDisabledDate]="disabledStartDate2"
+                  nzPlaceHolder="Select End Date."
+                ></nz-date-picker>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="12">
+              <nz-form-item>
+                <nz-form-control>
+                  <nz-form-label nzNoColon><b>Theatre Name</b></nz-form-label>
+                  <nz-select
+                    nzShowSearch
+                    nzAllowClear
+                    nzPlaceHolder="Select Theatre Name"
+                    name="type"
+                    [(ngModel)]="type"
+                  >
+                    <nz-option
+                      *ngFor="let data of dataList1"
+                      nzLabel="{{data.NAME}} / ({{data.CITY_NAME}})"
+                      [nzValue]="data.ID"
+                    ></nz-option>
+                    
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-control>
+                  <nz-form-label nzNoColon><b>Drama Name</b></nz-form-label>
+                  <nz-select
+                    nzShowSearch
+                    nzAllowClear
+                    nzPlaceHolder="Select Drama Name"
+                    name="drama"
+                    [(ngModel)]="DRAMA_ID"
+                  >
+                    <nz-option
+                      *ngFor="let data of dramalist"
+                      [nzLabel]="data.NAME"
+                      [nzValue]="data.ID"
+                    ></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="8">
+              <nz-form-label nzNoColon></nz-form-label>
+              <nz-form-item style="margin-left: 10px">
+                <button
+                  style="margin-right: 10px"
+                  nz-button
+                  [nzLoading]="isSpinning"
+                  nzType="primary"
+                  (click)="applyFilter()"
+                  nzJustify="end"
+                >
+                  <i nz-icon nzType="filter"></i>Apply filter
+                </button>
+                <button nz-button nzType="primary" (click)="clearFilter()">
+                  <i nz-icon nzType="filter"></i>Clear Filter
+                </button>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table
+      class="my-scroll no-wrap1"
+      nzBordered
+      #basicTable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="allMaster"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '2550px', y: '350px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+    >
+      <thead>
+        <tr style="font-weight: bold">
+          <th
+            nzWidth="20px"
+            style="text-align: center; font-weight: bold"
+            nzLeft
+          >
+            Action
+          </th>
+
+          <th
+            nzWidth="40px"
+            style="text-align: center; font-weight: bold"
+            nzLeft
+          >
+            Booking Seat Layout
+          </th>
+          <th nzWidth="25px" style="text-align: center" nzLeft>
+            <b> Layout Name</b>
+          </th>
+
+          <th
+            nzWidth="80px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'THEATRE_NAME' }}"
+            [nzSortFn]="true"
+          >
+            Theater Name
+          </th>
+
+          <th
+            nzWidth="70px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'THEATRE_ADDRESS' }}"
+            [nzSortFn]="true"
+          >
+            Address
+          </th>
+          <!-- <th
+            nzWidth="70px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'DISTIBUTOR_NAME' }}"
+            [nzSortFn]="true"
+          >
+            Distributor Name
+          </th> -->
+          <th
+            nzWidth="70px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'DRAMA_NAME' }}"
+            [nzSortFn]="true"
+          >
+            Drama Name
+          </th>
+          <th
+            nzWidth="35px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'DATE' }}"
+            [nzSortFn]="true"
+          >
+            Date
+          </th>
+          <th
+            nzWidth="35px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'START_TIME' }}"
+            [nzSortFn]="true"
+          >
+            Start Time
+          </th>
+          <th
+            nzWidth="35px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'END_TIME' }}"
+            [nzSortFn]="true"
+          >
+            End Time
+          </th>
+          <th
+            nzWidth="47px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'BOOKING_STATUS' }}"
+            [nzSortFn]="true"
+          >
+            Booking Status
+          </th>
+          <th
+            nzWidth="30px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'TOTAL_SEATS' }}"
+            [nzSortFn]="true"
+          >
+            Total Seats
+          </th>
+          <th
+            nzWidth="35px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'AVAILABLE_SEATS' }}"
+            [nzSortFn]="true"
+          >
+            Available seats
+          </th>
+          <th
+            nzWidth="30px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'BOOKED_SEATS' }}"
+            [nzSortFn]="true"
+          >
+            Booked Seats
+          </th>
+          <th
+            nzWidth="35px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'TOTAL_REVENUE' }}"
+            [nzSortFn]="true"
+          >
+            Total Revenue (₹)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td style="text-align: center" nzLeft>
+            <a (click)="edit(data)"> Edit </a>
+          </td>
+          <td style="text-align: center" nzLeft>
+            <a (click)="layout(data)">Bookings</a>
+          </td>
+          <td style="text-align: center" nzLeft>
+            <a (click)="layout2(data)"> Layout Group </a>
+          </td>
+          <td
+            style="
+              text-align: left;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+            nz-tooltip
+            [nzTooltipTitle]="
+              data.THEATRE_NAME +' '+ (data.CITY_NAME ? ' / ('+ data.CITY_NAME +')' : '')
+            "
+          >
+            {{ data.THEATRE_NAME }} &nbsp;
+            <span *ngIf="data.CITY_NAME">/ ({{ data.CITY_NAME }})</span>
+          </td>
+          <td
+            style="
+              text-align: left;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+            nz-tooltip
+            [nzTooltipTitle]="data.THEATRE_ADDRESS"
+          >
+            {{ data.THEATRE_ADDRESS }}
+          </td>
+          <!-- <td style="text-align: center; white-space: pre-line">
+            {{ data.DISTIBUTOR_NAME }}
+          </td> -->
+          <td style="text-align: left; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
+          nz-tooltip [nzTooltipTitle]="data.DRAMA_NAME">
+            {{ data.DRAMA_NAME }}
+          </td>
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["DATE"] ? (data.DATE | date : "dd-MM-yyyy") : "" }}
+          </td>
+          <td style="text-align: center; white-space: pre-line">
+            {{
+              data["START_TIME"]
+                ? (getTimeIn12Hour(data["START_TIME"]) | date : "HH:mm a")
+                : ""
+            }}
+          </td>
+
+          <td style="text-align: center">
+            {{
+              data["END_TIME"]
+                ? (getTimeIn12Hour(data["END_TIME"]) | date : "HH:mm a")
+                : ""
+            }}
+          </td>
+
+          <!-- <td style="text-align: center;"> {{data.BOOKING_STATUS}}</td> -->
+
+          <td style="text-align: center">
+            <span nz-icon *ngIf="data['BOOKING_STATUS'] == 'S'"
+              >Booking Started</span
+            >
+            <span nz-icon *ngIf="data['BOOKING_STATUS'] == 'NSY'"
+              >Booking Not Started Yet</span
+            >
+            <span nz-icon *ngIf="data['BOOKING_STATUS'] == 'BF'"
+              >Booking Full</span
+            >
+            <span nz-icon *ngIf="data['BOOKING_STATUS'] == 'SC'"
+              >Show Cancelled</span
+            >
+            <span nz-icon *ngIf="data['BOOKING_STATUS'] == 'BS'"
+              >Booking Stopped</span
+            >
+            <span nz-icon *ngIf="data['BOOKING_STATUS'] == 'C'"
+            >Show Completed</span
+          >
+          </td>
+
+          <td style="text-align: center">{{ data.TOTAL_SEATS }}</td>
+          <td style="text-align: center">{{ data.AVAILABLE_SEATS }}</td>
+          <td style="text-align: center">{{ data.BOOKED_SEATS }}</td>
+          <td style="text-align: center">{{ data.TOTAL_REVENUE }}</td>
+          <!-- <td style="text-align: center;"> {{data.RATE_ARRAY}}</td> -->
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<div *ngIf="drawerVisible">
+  <nz-drawer
+    [nzBodyStyle]="{
+      height: 'calc(100% - 55px)',
+      overflow: 'auto',
+      'padding-bottom': '53px'
+    }"
+    [nzMask]="true"
+    [nzMaskClosable]="false"
+    [nzWidth]="1080"
+    [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitleAdd"
+    (nzOnClose)="drawerClose()"
+    (nzKeyboard)="(true)"
+  >
+    <ng-container *nzDrawerContent>
+      <app-adddata
+        [data]="Masterdetails"
+        [drawerVisible]="drawerVisible"
+        [drawerClose]="closeCallback"
+        [FROM_DATE]="FROM_DATE"
+        [TO_DATE]="TO_DATE"
+        [cityId]="cityId"
+        [detail]="detail"
+        [distributorslist]="distributorslist"
+      ></app-adddata>
+    </ng-container>
+    <ng-template #drawerTitleAdd>
+      <b>{{ drawerTitle }}</b>
+    </ng-template>
+  </nz-drawer>
+</div>
+<div *ngIf="showlayoutVisible">
+  <nz-drawer
+    [nzBodyStyle]="{ overflow: 'auto' }"
+    [nzMaskClosable]="false"
+    [nzWidth]="900"
+    [nzVisible]="showlayoutVisible"
+    [nzTitle]="bookingTitle"
+    (nzOnClose)="close()"
+  >
+    <ng-container *nzDrawerContent>
+      <app-showlayout
+        [showmasterid]="showmasterid"
+        [showlayoutDataList]="showlayoutDataList"
+        [drawerClose]="closeCallback1"
+        [ImageUrl]="ImageUrl"
+        [ShowCountsdata]="ShowCountsdata"
+        [previewavail]="previewavail"
+        [changeBoolean]="closeboolean"
+        [statuss]="statuss"
+        [showStatus]="showStatus"
+      ></app-showlayout>
+      <!-- <img style="width: 100%" [src]="ImageUrl" *ngIf="statuss == true" /> -->
+    </ng-container>
+    <ng-template #bookingTitle>
+      <b>Preview Bookings Details</b>
+    </ng-template>
+  </nz-drawer>
+</div>
+<div *ngIf="layoutVisible">
+  <nz-drawer
+    [nzBodyStyle]="{ overflow: 'auto' }"
+    [nzMaskClosable]="false"
+    [nzWidth]="800"
+    [nzVisible]="layoutVisible"
+    [nzTitle]="layoutTitle"
+    (nzOnClose)="close2()"
+  >
+    <ng-container *nzDrawerContent>
+      <app-layoutbutton
+        [theaterId]="theaterId"
+        [layoutDataList]="layoutDataList"
+        [loadingRecords]="load"
+        [drawerClose]="closeCallback2"
+        [isShowWiseLayout]="isShowWiseLayout"
+        [bookingStatus]="bookingStatus"
+        [masterid]="masterId"
+        [RateaArray]="RateArray"
+      ></app-layoutbutton>
+    </ng-container>
+    <ng-template #layoutTitle>
+      <b>Layout Group</b>
+    </ng-template>
+  </nz-drawer>
+</div>

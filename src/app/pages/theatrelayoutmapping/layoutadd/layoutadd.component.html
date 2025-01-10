@@ -1,0 +1,80 @@
+<div>
+    <form nz-form #documentMasterPage="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row>
+                <div nz-col nzSpan="24">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Theatre Name</nz-form-label>
+                        <nz-form-control nzHasFeedback nzErrorTip="Please Select Theatre">
+                            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Theatre"
+                                [(ngModel)]="data.THEATRE_ID" name="documenttypesid" required>
+                                <nz-option *ngFor="let role of theatremaster " [nzValue]="role.ID"
+                                    [nzLabel]="role.NAME">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="24">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Layout</nz-form-label>
+                        <nz-form-control nzHasFeedback nzErrorTip="Please Select Layout">
+                            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Layout"
+                                [(ngModel)]="data.LAYOUT_ID" name="documentname" required>
+                                <nz-option *ngFor="let role of layout " [nzValue]="role.ID"
+                                    [nzLabel]="role.NAME">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon>Default Rate</nz-form-label>
+                        <nz-form-control nzHasFeedback nzErrorTip="Please Enter Default Rate">
+                            <input  nz-input name="mobile" (keypress)="omit($event)"
+                                [(ngModel)]="data.DEFAULT_RATE" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <!-- <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzNoColon> Sequence Number </nz-form-label>
+                        <nz-form-control nzHasFeedback nzErrorTip="Please Enter the Squence Number">
+                            <input nz-input name="squencenumber" maxlength="6" (keypress)="omit($event)"
+                                [pattern]="onlynumber" [(ngModel)]="data.SEQUENCE_NO" required />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div> -->
+
+                <!-- <div nz-col nzSpan="14">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Status</nz-form-label>
+                        <nz-form-control>
+                            <nz-switch name="status" [(ngModel)]="data.IS_ACTIVE"></nz-switch>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div> -->
+            </div>
+        </nz-spin>
+    </form>
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close()" class="ant-btn"
+            style="margin-right: 8px;"><span>Cancel</span></button>
+        <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button nz-dropdown
+            [nzDropdownMenu]="menu" (click)="save(false,documentMasterPage)"><span>Save & Close</span></button>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+                <li nz-menu-item class="menuc" style="border-radius: 4px;background-color: #40a9ff;">
+                    <a style="color:white" (click)="save(true,documentMasterPage)">Save & New</a>
+                </li>
+            </ul>
+        </nz-dropdown-menu>
+        <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" *ngIf="data.ID"
+            (click)="save(false,documentMasterPage)"><span>Update & Close</span></button>
+    </div>
+</div>

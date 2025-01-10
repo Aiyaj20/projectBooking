@@ -1,0 +1,19 @@
+<div>
+    <form nz-form #form6>
+        <nz-spin [nzSpinning]="isSpinning">
+            <div class="my-box">
+                <div nz-row >
+                    <div nz-col nzSpan="24">
+                        <b> Title </b> 
+                    </div>
+ 
+                    <div nz-col nzSpan="24">
+                        Description
+                    </div>
+                        <!-- <nz-comment [nzDatetime]="time"></nz-comment> -->
+                        <h6>{{today | date:'mm:ss'}} min ago</h6>
+                </div>                             
+            </div>
+        </nz-spin >
+    </form>
+</div>

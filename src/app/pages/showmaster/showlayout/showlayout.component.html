@@ -1,0 +1,326 @@
+<!-- <div style="display: flex;justify-content: space-evenly;align-items: center;">
+<div style="font-size: 20px;font-weight: bold;text-align: center;">
+    <h3 style="font-size: 20px;font-weight: bold;text-align: center;">Image/Grid</h3>
+    <nz-switch name="IS_ACTIVE" nzCheckedChildren="Image" nzUnCheckedChildren="Grid" [(ngModel)]="statuss"
+        (ngModelChange)="statuschange()" required></nz-switch>
+
+       
+        
+
+</div>
+<div style="display: flex;background-color: black;">
+    <button nz-button nzType="primary" (click)="loadOne()" [nzLoading]="isLoadingOne">Click me!</button>
+</div>
+</div> -->
+
+<!-- <div class="row">
+    <div class="col-sm-12">
+        <div style="margin: 20px; margin-left: -95px;display:inline-flex; line-height: 46px;">
+            <div class="circle1">
+                <h5>${AllBookingCount[0].NOT_AVAILABLE}</h5>
+            </div>Not Available
+
+        </div>
+
+        <div style="margin-left: 70px;margin-top: -45px; margin-right: -85px; display:inline-flex; line-height: 46px;">
+            <div class="circle2">
+                <h5>${AllBookingCount[0].ALREADY_BOOKED}</h5>
+            </div>
+            Already Booked
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="row">
+    <div class="col-sm-12">
+        <div style="margin: 20px; margin-left: 25px; display:inline-flex; line-height: 46px;">
+            <div class="circle3">
+                <h5>${AllBookingCount[0].AVAILABLE_SEATS}</h5>
+            </div>
+            Available For Booking
+        </div>
+    </div>
+</div> -->
+
+<div style="display: flex; justify-content: space-between">
+  <div style="width: 55%; display: flex; justify-content: flex-end">
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h3 style="font-size: 20px; font-weight: bold; text-align: center">
+        Grid/Image
+      </h3>
+      <nz-switch
+        name="IS_ACTIVE"
+        nzCheckedChildren="Image"
+        nzUnCheckedChildren="Grid"
+        [(ngModel)]="statuss"
+        (ngModelChange)="statuschange2($event)"
+        required
+      ></nz-switch>
+    </div>
+  </div>
+  <div style="width: 45%; display: flex; justify-content: flex-end">
+    <!-- <div
+      *ngIf="showStatus == 'S'"
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <button
+        nz-button
+        nzType="primary"
+        (click)="changeRowStatus()"
+        [nzLoading]="isLoadingOne"
+      >
+        <span nz-icon nzType="edit" nzTheme="outline"></span>Change Row Status
+      </button>
+    </div> -->
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 5px;
+      "
+    >
+      <button
+        nz-button
+        nzType="primary"
+        (click)="loadOne()"
+        [nzLoading]="isLoadingOne"
+      >
+        <span nz-icon nzType="reload" nzTheme="outline"></span>Refresh
+      </button>
+    </div>
+  </div>
+</div>
+<br /><br />
+
+<!-- [nzTotal]="totalRecords"  -->
+
+<div nz-row *ngIf="statuss == false">
+  <nz-spin [nzSpinning]="loadingRecords">
+    <div
+      style="
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        align-items: center;
+        margin-top: -25px;
+        margin-bottom: 5px;
+      "
+    >
+      <nz-form-item style="width: 28%">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="postsearch"
+            (keyup)="keyup($event)"
+            [(ngModel)]="searchText"
+            autocomplete="off"
+            nz-input
+            placeholder="Search Record"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" (click)="search(true)" nzSearch>
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+    </div>
+
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+        margin-bottom: 15px;
+      "
+    >
+      <div style="display: flex; gap: 15px">
+        <span style="display: flex">
+          <div class="circle2">
+            <b>
+              <h5 style="font-size: 14px; font-weight: 700; color: aliceblue">
+                {{ ShowCountsdata[0]?.ALREADY_BOOKED }}
+              </h5>
+            </b>
+          </div>
+          <span style="margin-left: 7px; margin-top: 12px"
+            >Already Booked</span
+          > </span
+        ><br /><br />
+        <span style="display: flex">
+          <div class="circle3">
+            <b>
+              <h5 style="font-size: 14px; font-weight: 700; color: aliceblue">
+                {{ ShowCountsdata[0]?.AVAILABLE_SEATS }}
+              </h5>
+            </b>
+          </div>
+          <span style="margin-left: 7px; margin-top: 12px"
+            >Available For Bookings</span
+          > </span
+        ><br /><br />
+        <span style="display: flex">
+          <div class="circle1">
+            <b>
+              <h5 style="font-size: 14px; font-weight: 700; color: aliceblue">
+                {{ ShowCountsdata[0]?.NOT_AVAILABLE }}
+              </h5>
+            </b>
+          </div>
+          <span style="margin-left: 7px; margin-top: 12px"
+            >Not Available</span
+          > </span
+        ><br /><br />
+        <span style="display: flex">
+          <div class="circle6">
+            <b>
+              <h5 style="font-size: 14px; font-weight: 700; color: aliceblue">
+                {{ ShowCountsdata[0]?.ADDED_IN_CART }}
+              </h5>
+            </b>
+          </div>
+          <span style="margin-left: 7px; margin-top: 12px"
+            >Added In Cart</span
+          > </span
+        ><br /><br />
+      </div>
+    </div>
+
+    <div nz-col nzSpan="24">
+      <nz-table
+        class="my-scroll no-wrap1"
+        nzBordered
+        #newtabledata
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="showlayoutDataList"
+        [nzScroll]="{ y: '350px' }"
+        [nzSize]="'small'"
+        (nzQueryParams)="sort($event)"
+      >
+        <thead>
+          <tr>
+            <th
+              nzColumnKey="{{ 'GROUP_LAYOUT_NAME' }}"
+              [nzSortFn]="true"
+              nzWidth="30px"
+              style="text-align: center"
+            >
+              <b> Seat Layout Name </b>
+            </th>
+
+            <th
+              nzColumnKey="{{ 'ROW_NAME' }}"
+              [nzSortFn]="true"
+              nzWidth="30px"
+              style="text-align: center"
+            >
+              <b> Row Name </b>
+            </th>
+
+            <th
+              nzColumnKey="{{ 'SEAT_NUMBER' }}"
+              [nzSortFn]="true"
+              nzWidth="30px"
+              style="text-align: center"
+            >
+              <b> Seat Number </b>
+            </th>
+
+            <th
+              nzColumnKey="{{ 'SEAT_STATUS' }}"
+              [nzSortFn]="true"
+              nzWidth="30px"
+              style="text-align: center"
+            >
+              <b> Status </b>
+            </th>
+          </tr>
+        </thead>
+        <tbody style="text-align: center">
+          <tr
+            *ngFor="let data of newtabledata.data; let i = index"
+            style="white-space: pre-line"
+          >
+            <td>
+              {{ data["GROUP_LAYOUT_NAME"] }}
+            </td>
+            <td>
+              {{ data["ROW_NAME"] }}
+            </td>
+            <td>
+              {{ data["SEAT_NUMBER"] }}
+            </td>
+            <!-- <td style="text-align: center">{{ data["SEAT_STATUS"] }}</td> -->
+
+            <td>
+              <nz-tag nzColor="success" *ngIf="data['SEAT_STATUS'] == 'A'">
+                <span nz-icon nzType="check-circle"></span>
+                <b>
+                  <span style="margin-left: 5px">Available For Booking</span></b
+                >
+              </nz-tag>
+
+              <nz-tag nzColor="warning" *ngIf="data['SEAT_STATUS'] == 'B'">
+                <span nz-icon nzType="check"></span>
+                <b><span style="margin-left: 5px">Already Booked</span></b>
+              </nz-tag>
+
+              <nz-tag nzColor="default" *ngIf="data['SEAT_STATUS'] == 'C'">
+                <span nz-icon nzType="shopping-cart"></span>
+                <b><span style="margin-left: 5px">Added In Cart</span></b>
+              </nz-tag>
+
+              <nz-tag nzColor="error" *ngIf="data['SEAT_STATUS'] == 'R'">
+                <span nz-icon nzType="close-circle"></span>
+                <b> <span style="margin-left: 5px">Not Available</span></b>
+              </nz-tag>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </nz-spin>
+</div>
+
+<div *ngIf="statuss == true">
+  <div style="text-align: center; padding-bottom: 10%">
+    <nz-spin [nzSpinning]="load">
+      <img
+        nz-image
+        width="100%"
+        height="100%"
+        [nzSrc]="ImageUrl"
+        alt="No Image Found"
+      />
+      <!-- <img [src]="ImageUrl" alt="Logo" name="jshjkfsdh" style="width: 100%;"> -->
+    </nz-spin>
+  </div>
+</div>
+
+<div class="footer">
+  <button
+    type="button"
+    nz-button
+    (click)="close()"
+    class="ant-btn"
+    style="margin-right: 8px"
+  >
+    <span>Cancel</span>
+  </button>
+</div>

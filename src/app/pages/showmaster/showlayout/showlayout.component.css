@@ -1,0 +1,145 @@
+nz-form-item {
+  display: inline-block;
+  margin-bottom: 5px;
+  width: -webkit-fill-available;
+  padding: 0px 10px;
+  font-family: 'Poppins';
+}
+
+.abc {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 30px;
+
+}
+
+.circle1 {
+  left: 0;
+  border-radius: 10%;
+  width: 45px;
+  height: 33px;
+
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ff4d4f;
+  margin-top: 5px;
+  color: #fff;
+  padding-top: 8px;
+  text-align: center;
+  font: 12px Arial, sans-serif;
+  font-weight: bold;
+
+}
+
+.circle2 {
+  left: 0;
+  border-radius: 10%;
+  width: 45px;
+  height: 33px;
+  justify-content: center;
+
+  display: flex;
+  align-items: center;
+  background: #faad14;
+  margin-top: 5px;
+  color: #fff;
+  padding-top: 8px;
+  text-align: center;
+  font: 12px Arial, sans-serif;
+  font-weight: bold;
+}
+
+.circle3 {
+  left: 0;
+  border-radius: 10%;
+  width: 45px;
+  height: 33px;
+  justify-content: center;
+
+  display: flex;
+  align-items: center;
+  background: #52c41a;
+  margin-top: 5px;
+  padding-top: 8px;
+  color: #fff;
+  text-align: center;
+  font: 12px Arial, sans-serif;
+  font-weight: bold;
+}
+
+
+.circle5 {
+  left: 0;
+  border-radius: 10%;
+  width: 45px;
+  height: 33px;
+  padding-top: 8px;
+  justify-content: center;
+  display: flex;
+  
+  align-items: center;
+  background: #bdbdbd;
+  margin-top: 5px;
+  color: #fff;
+  text-align: center;
+  font: 12px Arial, sans-serif;
+  font-weight: bold;
+}
+
+.circle4 {
+  left: 0;
+  border-radius: 10%;
+  width: 45px;
+  height: 33px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  padding-top: 8px;
+  background: rgb(194, 194, 194);
+  margin-top: 5px;
+  color: #fff;
+  text-align: center;
+  font: 12px Arial, sans-serif;
+  font-weight: bold;
+}
+
+.circle6 {
+  left: 0;
+  border-radius: 10%;
+  width: 45px;
+  height: 33px;
+
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000a1;
+  margin-top: 5px;
+  color: #fff;
+  padding-top: 8px;
+  text-align: center;
+  font: 12px Arial, sans-serif;
+  font-weight: bold;
+
+}
+.class1 h5{
+  padding: 0px;
+}
+.class2 h5{
+  padding: 0px;
+}
+.class3 h5{
+  padding: 0px;
+}
+.class4 h5{
+  padding: 0px;
+}
+.class5 h5{
+  padding: 0px;
+}
+.class6 h5{
+  padding: 0px;
+}

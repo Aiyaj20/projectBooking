@@ -1,0 +1,172 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname">
+      <b> {{ formTitle }} </b>
+    </div>
+  </div>
+
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item style="margin-left: -150px">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="postsearch"
+            (keyup)="keyup($event)"
+            autocomplete="off"
+            [(ngModel)]="searchText"
+            nz-input
+            placeholder="Search Record"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" (click)="search(true)" nzSearch>
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+          <i nz-icon nzType="plus"></i>Add New Seat Layout Group
+        </button>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table
+      class="my-scroll no-wrap1"
+      nzBordered
+      #datatable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '800px', y: '420px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+    >
+      <thead>
+        <tr>
+          <th nzWidth="15px" style="font-weight: bold; text-align: center">
+            Action
+          </th>
+          <th
+            nzWidth="25px"
+            style="font-weight: bold; text-align: center"
+            nzColumnKey="{{ 'SEQUENCE_NUMBER' }}"
+            [nzSortFn]="true"
+          >
+            Seq No.
+          </th>
+
+          <th
+            nzWidth="50px"
+            style="font-weight: bold; text-align: center"
+            nzColumnKey="{{ 'NAME' }}"
+            [nzSortFn]="true"
+          >
+            Seat Layout Group Name
+          </th>
+          <th
+            nzWidth="50px"
+            style="font-weight: bold; text-align: center"
+            nzColumnKey="{{ 'SHORT_CODE' }}"
+            [nzSortFn]="true"
+          >
+            Short Code
+          </th>
+
+          <th
+            nzWidth="15px"
+            style="font-weight: bold; text-align: center"
+            nzColumnKey="{{ 'STATUS' }}"
+            [nzSortFn]="true"
+            [nzSortFn]="true"
+          >
+            Status
+          </th>
+        </tr>
+      </thead>
+      <tbody style="text-align: center">
+        <tr *ngFor="let data of datatable.data" style="text-align: center">
+          <td>
+            <a (click)="edit(data)">Edit </a>
+          </td>
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["SEQUENCE_NUMBER"] }}
+          </td>
+
+          <td style="text-align: left;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
+          nz-tooltip [nzTooltipTitle]="data['NAME']" nzTooltipPlacement="top">
+            {{ data["NAME"] }}
+          </td>
+
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["SHORT_CODE"] }}
+          </td>
+
+          <td style="text-align: center; white-space: pre-line">
+            <i
+              nz-icon
+              *ngIf="data['STATUS']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['STATUS']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+
+  <nz-drawer
+    [nzBodyStyle]="{
+      height: 'calc(100% - 55px)',
+      overflow: 'auto',
+      'padding-bottom': '53px'
+    }"
+    [nzClosable]="true"
+    [nzMask]="true"
+    [nzMaskClosable]="false"
+    [nzWidth]="450"
+    [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitletemplate"
+    (nzOnClose)="drawerClose()"
+    (nzKeyboard)="(true)"
+  >
+    <ng-container *nzDrawerContent>
+      <app-add-seat-layout
+        [drawerClose]="closeCallback"
+        [drawerVisible]="drawerVisible"
+        [data]="drawerData"
+      ></app-add-seat-layout>
+    </ng-container>
+    <ng-template #drawerTitletemplate>
+      <b>{{ drawerTitle }}</b>
+    </ng-template>
+  </nz-drawer>
+</div>

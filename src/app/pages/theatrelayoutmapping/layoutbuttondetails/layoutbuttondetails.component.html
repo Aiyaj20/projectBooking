@@ -1,0 +1,450 @@
+<form nz-form #form11="ngForm">
+  <div class="formname">
+    <!-- <b>Theatre Layout </b> -->
+  </div>
+  <div nz-row class="my-box">
+    <div nz-col nzSpan="6">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon> Row Name</nz-form-label>
+        <nz-form-control nzHasFeedback nzErrorTip="Please Enter Row Name">
+          <input
+            maxlength="20"
+            nz-input
+            name="cast"
+            [(ngModel)]="data.ROW_NAME"
+            (keypress)="alphaOnly($event)"
+            required
+            placeholder="Enter Row Name"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="5">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon>Start Seat Number</nz-form-label>
+        <nz-form-control
+          nzHasFeedback
+          nzErrorTip="Please Enter Start Seat Number"
+        >
+          <input
+            nz-input
+            name="mobile"
+            maxlength="5"
+            (keypress)="omit($event)"
+            [(ngModel)]="data.START_SEAT_NUMBER"
+            required
+            placeholder="Enter Start Seat No"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="5">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon>End Seat Number</nz-form-label>
+        <nz-form-control
+          nzHasFeedback
+          nzErrorTip="Please Enter End Seat Number"
+        >
+          <input
+            nz-input
+            name="mob55ile"
+            maxlength="5"
+            (keypress)="omit($event)"
+            [(ngModel)]="data.END_SEAT_NUMBER"
+            required
+            placeholder="Enter End Seat No"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="8">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon
+          >Is Available For Booking</nz-form-label
+        >
+        <nz-form-control>
+          <nz-switch
+            name="is_active"
+            [(ngModel)]="data.IS_AVAILABLE_FOR_BOOKING"
+            nzCheckedChildren="Yes"
+            nzUnCheckedChildren="No"
+          ></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-form-label nzNoColon>Is Gap</nz-form-label>
+        <nz-form-control>
+          <nz-switch
+            name="is_gap"
+            [(ngModel)]="data.IS_GAP"
+            nzCheckedChildren="Yes"
+            nzUnCheckedChildren="No"
+          ></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-form-label nzNoColon>Is Big Gap</nz-form-label>
+        <nz-form-control>
+          <nz-switch
+            name="is_big_gap"
+            [(ngModel)]="data.IS_BIG_GAP"
+            nzCheckedChildren="Yes"
+            nzUnCheckedChildren="No"
+          ></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="3">
+      <nz-form-item>
+        <nz-form-label nzNoColon>Is Top Gap</nz-form-label>
+        <nz-form-control>
+          <nz-switch
+            name="is_to_gap"
+            [(ngModel)]="data.IS_TOP_GAP"
+            nzCheckedChildren="Yes"
+            nzUnCheckedChildren="No"
+          ></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-form-label nzNoColon nzRequired>Sequence No</nz-form-label>
+        <nz-form-control
+          nzHasFeedback
+          nzErrorTip="Please Enter Sequence number"
+        >
+          <input
+            nz-input
+            name="sequenceno"
+            maxlength="5"
+            (keypress)="omit($event)"
+            [(ngModel)]="data.SEQUENCE_NUMBER"
+            required
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzMd="2" nzXs="5" *ngIf="!data.ID">
+      <nz-form-item style="margin-top: 30px">
+        <nz-form-label nzNoColon></nz-form-label>
+        <button nz-button nzType="primary"  [nzLoading]="loadingRecords" (click)="addData(true, form11)">
+          <span>Add</span>
+        </button>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzMd="2" nzXs="5" *ngIf="data.ID">
+      <nz-form-item>
+        <nz-form-label nzNoColon></nz-form-label>
+        <button nz-button  [nzLoading]="loadingRecords" nzType="primary" (click)="addData(false, form11)">
+          <span>Update</span>
+        </button>
+      </nz-form-item>
+    </div>
+
+    <!-- <div nz-col nzMd="2" nzXs="5">
+            <nz-form-item>
+                <nz-form-label nzNoColon></nz-form-label>
+            <button nz-button nzType="primary" *ngIf="data.ID" (click)="addData(false,form11)">
+                <span>Update</span>
+                </button></nz-form-item>
+            </div> -->
+  </div>
+  <div nz-row>
+    <!-- <div nz-col nzSpan="8">
+            <nz-form-item>
+                <nz-form-label nzRequired nzNoColon>Details Of Work Done</nz-form-label>
+                <nz-form-control nzHasFeedback nzErrorTip="Please Enter Work Details">
+                    <input nzHasFeedback nz-input autocomplete="off" name="details" maxlength="500" required />
+                </nz-form-control>
+            </nz-form-item>
+        </div> -->
+    <!-- <div nz-col nzMd="8" nzXs="19">
+            <nz-form-item>
+                <nz-form-label nzRequired nzNoColon>Machine Name</nz-form-label>
+                <br />
+                <nz-form-control nzHasFeedback nzErrorTip=" Select Machine Name ">
+                    <nz-select nzShowSearch name="machine-name" nzAllowClear [(ngModel)]="MACHINE_ID" required>
+                        <nz-option *ngFor="let option of machineList" [nzLabel]="option.NAME"
+                            [nzValue]="option.ID"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </div> -->
+  </div>
+  <br />
+  <div nz-row >
+    <div nz-col nzSpan="24">
+      <nz-table
+        nzBordered
+        [nzData]="layoutbuttonDataList"
+        #newtabledata
+        nzFrontPagination="false"
+        [nzSize]="'small'"
+        [nzScroll]="{ y: '410px', x: screenwidth > 500 ? '' : '1200px' }"
+        [nzLoading]="loadingRecords"
+      >
+        <!-- <nz-table nzBordered [nzData]="tabledata2" #newtabledata nzFrontPagination="false"
+                        [nzLoading]="loadingrecords" [nzSize]="'small'" [nzTotal]="totalRecords"
+                        [nzScroll]="{ y: '410px' }" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                        (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)"> -->
+        <thead>
+          <tr>
+            <!-- <th nzColumnKey="" nzWidth="25px" nzAlign="center">
+                            <p style="font-weight: bold">Drawer</p>
+                        </th> -->
+            <th nzColumnKey="" nzWidth="25px" nzAlign="center">
+              <p style="font-weight: bold">Edit</p>
+            </th>
+            <th nzColumnKey="" nzWidth="60px" nzAlign="center">
+              <!-- <p style="font-weight: bold">Delete</p> -->
+              <label nz-checkbox name="allDeleteCheck" [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate">
+                <p style="font-weight: bold"> Delete All </p>
+              </label>
+            
+            </th>
+            <th nzColumnKey="" nzWidth="55px" nzAlign="center">
+              <p style="font-weight: bold">Sequence No</p>
+            </th>
+            <th nzWidth="55px" nzAlign="center">
+              <p style="font-weight: bold">Row Name</p>
+            </th>
+            <th nzColumnKey="" nzWidth="63px" nzAlign="center">
+              <p style="font-weight: bold">Start Seat Number</p>
+            </th>
+            <th nzColumnKey="" nzWidth="63px" nzAlign="center">
+              <p style="font-weight: bold">End Seat Number</p>
+            </th>
+
+            <th nzColumnKey="" nzWidth="70px" nzAlign="center">
+              <p style="font-weight: bold">Available For Booking</p>
+            </th>
+            <th nzColumnKey="" nzWidth="40px" nzAlign="center">
+              <p style="font-weight: bold">Is Gap</p>
+            </th>
+            <th nzColumnKey="" nzWidth="40px" nzAlign="center">
+              <p style="font-weight: bold">Is Big Gap</p>
+            </th>
+            <th nzColumnKey="" nzWidth="40px" nzAlign="center">
+              <p style="font-weight: bold">Is Top Gap</p>
+            </th>
+          </tr>
+        </thead>
+        <tbody style="text-align: center">
+          <tr
+            *ngFor="let data of newtabledata.data; let i = index"
+            style="white-space: pre-line"
+          > 
+            <!-- 
+                        <td> <a (click)="viewdata(data)">
+                                <span nz-icon nzType="plus-circle" nzTheme="twotone" style="margin-top: 10px;"></span>
+                            </a></td> -->
+
+            <td> 
+              <a (click)="edit(data)" nz-tooltip nzTooltipTitle="Edit">
+                <span
+                  nz-icon
+                  nzType="edit"
+                  nzTheme="twotone"
+                  style="margin-top: 10px" 
+                ></span>
+              </a>
+            </td>
+
+            <td style="text-align: center; font-weight: bold">
+              
+                <label nz-checkbox name="deleteChecked{{i}}" [(ngModel)]="data.checked" (ngModelChange)="updateSingleChecked(data.checked,data.ID)"></label>
+                <!-- <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="updateSingleChecked()"></label> -->
+
+              <!-- <a
+                nz-popconfirm
+                nzPopconfirmTitle="Are you sure want to delete this Seat?"
+                (nzOnConfirm)="deletebooking(data)"
+                ><span nz-icon nzType="delete" nzTheme="outline"></span
+              ></a> -->
+            </td>
+
+            <td style="text-align: center">{{ data["SEQUENCE_NUMBER"] }}</td>
+            <td style="text-align: center">{{ data["ROW_NAME"] }}</td>
+            <td style="text-align: center">{{ data["START_SEAT_NUMBER"] }}</td>
+            <td style="text-align: center">{{ data["END_SEAT_NUMBER"] }}</td>
+
+            <td>
+              <i
+                nz-icon
+                *ngIf="data['IS_AVAILABLE_FOR_BOOKING']"
+                [nzType]="'check-circle'"
+                [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#52c41a'"
+              ></i>
+              <i
+                nz-icon
+                *ngIf="!data['IS_AVAILABLE_FOR_BOOKING']"
+                [nzType]="'close-circle'"
+                [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#f50'"
+              ></i>
+            </td>
+            <td>
+              <i
+                nz-icon
+                *ngIf="data['IS_GAP']"
+                [nzType]="'check-circle'"
+                [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#52c41a'"
+              ></i>
+              <i
+                nz-icon
+                *ngIf="!data['IS_GAP']"
+                [nzType]="'close-circle'"
+                [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#f50'"
+              ></i>
+            </td>
+            <td>
+              <i
+                nz-icon
+                *ngIf="data['IS_BIG_GAP']"
+                [nzType]="'check-circle'"
+                [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#52c41a'"
+              ></i>
+              <i
+                nz-icon
+                *ngIf="!data['IS_BIG_GAP']"
+                [nzType]="'close-circle'"
+                [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#f50'"
+              ></i>
+            </td>
+            <td>
+              <i
+                nz-icon
+                *ngIf="data['IS_TOP_GAP']"
+                [nzType]="'check-circle'"
+                [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#52c41a'"
+              ></i>
+              <i
+                nz-icon
+                *ngIf="!data['IS_TOP_GAP']"
+                [nzType]="'close-circle'"
+                [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#f50'"
+              ></i>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</form>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="theaterLayouttemp"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+  [nzWidth]="1100"
+>
+  <ng-container *nzModalContent>
+    <nz-spin [nzSpinning]="loadmodal">
+      <div style="height: 350px; overflow-y: scroll">
+        <div>
+          <img style="width: 100%" [src]="Imgurldata" />
+        </div>
+      </div>
+    </nz-spin>
+  </ng-container>
+
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+  </div>
+  <ng-template #theaterLayouttemp>
+    <b>Theatre Layout Group</b>
+  </ng-template>
+</nz-modal>
+
+<div class="footer">
+  <button *ngIf="this.selectedIds.length>0"
+    type="button"
+    nz-button
+    [nzLoading]="loadingRecords"
+    class="ant-btn"
+    style="margin-right: 8px"
+    nzType="primary"
+
+    nz-popconfirm
+    nzPopconfirmTitle="Are you sure you want to delete selected seat details ?"
+    (nzOnConfirm)="deletebooking(data)"
+    (nzOnCancel)="cancel()"
+    nzPopconfirmPlacement="topRight"
+  >
+    <span>Delete Rows</span>
+  </button>
+
+
+
+  <button
+    type="button"
+    nz-button
+    (click)="showModal()"
+    [nzLoading]="loadingRecords"
+    class="ant-btn"
+    style="margin-right: 8px"
+    nzType="primary"
+  >
+    <span>Preview</span>
+  </button>
+
+  <button
+    type="button"
+    nz-button
+    (click)="close()"
+    class="ant-btn"
+    style="margin-right: 8px"
+  >
+    <span>Cancel</span>
+  </button>
+</div>
+
+<div *ngIf="drawerVisible1">
+  <nz-drawer
+    [nzBodyStyle]="{
+      height: 'calc(100% - 55px)',
+      overflow: 'auto',
+      'padding-bottom': '53px'
+    }"
+    [nzClosable]="false"
+    [nzMask]="true"
+    [nzMaskClosable]="false"
+    [nzWidth]="550"
+    [nzVisible]="drawerVisible1"
+    [nzTitle]="drawerTitletemplate"
+    (nzOnClose)="close()"
+    (nzKeyboard)="(true)"
+  >
+    <ng-container *nzDrawerContent>
+      <app-datadisplay
+        [drawerClose]="closeCallback1"
+        [layoutbutton]="layoutbutton"
+        [rowname]="rowname"
+        [endseatnumbar]="endseatnumbar"
+        [datataa1]="datataa1"
+        [drawerVisible]="drawerVisible1"
+      ></app-datadisplay>
+    </ng-container>
+    <ng-template #drawerTitletemplate>
+      <b>{{ drawerTitle }}</b>
+    </ng-template>
+  </nz-drawer>
+</div>

@@ -1,0 +1,72 @@
+<div nz-row nzType="flex">
+    <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+        <div class="formname"> <b> {{formTitle}} </b></div>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex;justify-content: flex-end">
+        <form nz-form [nzLayout]="'inline'">
+            <nz-form-item>
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text" name="search" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input
+                        placeholder="Search" />
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="primary" (click)="search(true)" nzSearch><i nz-icon
+                            nzType="search"></i></button>
+                </ng-template>
+            </nz-form-item>
+            <nz-form-item>
+                <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+                    <i nz-icon nzType="plus"></i>Add New Cart <br> Seat Number
+                </button>
+            </nz-form-item>
+        </form>
+    </div>
+</div>
+<br />
+<div nz-row>
+    <div nz-col nzSpan="24">
+        <nz-table class="my-scroll no-wrap1" nzBordered #languageTable nzShowSizeChanger [nzFrontPagination]="false"
+            [nzData]="dataList" [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ x: '800px', y: '390px' }"
+            [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+            (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)">
+            <thead>
+                <tr style="text-align: center;">
+                    <th nzWidth="100px" style="font-weight: bold;">Action</th>
+
+                    <th nzWidth="170px" style="font-weight: bold;" nzColumnKey="LANGUAGE_NAME" [nzSortFn]="true">Cart
+                        Name</th>
+                    <th nzWidth="170px" style="font-weight: bold;" nzColumnKey="ROW_NAME" [nzSortFn]="true"> Row Name
+                    </th>
+                    <th nzWidth="170px" style="font-weight: bold;" nzColumnKey="SEAT_NUMBER" [nzSortFn]="true"> Seat
+                        Number</th>
+                    <th nzWidth="170px" style="font-weight: bold;" nzColumnKey="AMOUNTS" [nzSortFn]="true"> Amount</th>
+
+                </tr>
+            </thead>
+            <tbody style="text-align: center;">
+                <tr *ngFor="let data of languageTable.data">
+                    <td>
+                        <a (click)="edit(data)">Edit</a>
+                    </td>
+                    <td style="text-align: left;" *ngFor="let column of columns">{{data[column[0]]}}</td>
+
+                    <td>
+                        <i nz-icon *ngIf="data['IS_ACTIVE']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+                            [nzTwotoneColor]="'#52c41a'"></i>
+                        <i nz-icon *ngIf="!data['IS_ACTIVE']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+                            [nzTwotoneColor]="'#f50'"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="400" [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+    <ng-container *nzDrawerContent>
+        <app-cardadd [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData">
+        </app-cardadd>
+    </ng-container>
+</nz-drawer>

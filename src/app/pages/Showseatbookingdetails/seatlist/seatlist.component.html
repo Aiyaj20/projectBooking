@@ -1,0 +1,76 @@
+<div nz-row nzType="flex">
+    <div nz-col nzXs="20" nzSm="20" nzMd="16" nzLg="16" nzXl="8">
+      <div class="formname"> <b> {{formTitle}} </b></div>
+    </div>
+  
+    <div nz-col nzXs="24" nzSm="24" nzMd="8" nzLg="8" nzXl="16" style="display: flex;justify-content: flex-end">
+      <form nz-form [nzLayout]="'inline'">
+        <nz-form-item>
+              <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" name="contactsearch" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input placeholder=" Search "  />
+              </nz-input-group>
+              <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" (click)="search(true)" nzSearch><i nz-icon nzType="search"></i></button>
+              </ng-template>
+            </nz-form-item>
+        <nz-form-item>
+          <button nz-button nzType="primary" (click)="add()"  nzJustify="end">
+            <i nz-icon nzType="plus"></i> Add New Show Seat Booking 
+          </button>
+        </nz-form-item>
+  
+      </form>
+    </div>
+  </div>
+  <br />
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <nz-table class="my-scroll no-wrap1" nzBordered #contactInfoTable nzShowSizeChanger [nzFrontPagination]="false"
+        [nzData]="dataList" [nzScroll]="{ x: '1000px' , y: '350px'}" [nzLoading]="loadingRecords" [nzSize]="'default'"
+        [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()"
+        (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)">
+  
+        <thead>
+          <tr>
+            <th nzWidth="2px" style="text-align: center;"><b> Action </b></th>
+            <th nzColumnKey="{{ 'EMAIL_ID' }}" [nzSortFn]="true" nzWidth="9px" style="text-align: center;"><b> Email ID
+              </b></th>
+            <th nzColumnKey="{{ 'CONTACT_NO' }}" [nzSortFn]="true" nzWidth="3px" style="text-align: center;"><b> Contact
+                No. </b></th>
+            <th nzColumnKey="{{ 'WHATSAPP_NO' }}" [nzSortFn]="true" nzWidth="3px" style="text-align: center;"><b> Whatsapp
+                No. </b></th>
+            <th nzColumnKey="{{ 'LONGITUDE' }}" [nzSortFn]="true" nzWidth="4px" style="text-align: center;"><b> Longitude
+              </b></th>
+            <th nzColumnKey="{{ 'LATITUDE' }}" [nzSortFn]="true" nzWidth="4px" style="text-align: center;"><b> Latitude
+              </b></th>
+          
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of contactInfoTable.data">
+            <td style="text-align: center;">
+              <a (click)="edit(data)"> Edit </a>
+            </td>
+            <td style="white-space: pre-line;">{{data['EMAIL_ID']}}</td>
+            <td style="white-space: pre-line;">{{data['CONTACT_NO']}}</td>
+            <td style="white-space: pre-line;">{{data['WHATSAPP_NO']}}</td>
+            <td style="white-space: pre-line;">{{data['LONGITUDE']}}</td>
+            <td style="white-space: pre-line;">{{data['LATITUDE']}}</td>
+  
+        
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+  
+
+  
+  <nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+    [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="450" [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+    <ng-container *nzDrawerContent>
+      <app-seatadd [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData">
+      </app-seatadd>
+    </ng-container>
+  </nz-drawer>

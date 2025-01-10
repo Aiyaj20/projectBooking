@@ -1,0 +1,236 @@
+nz-form-item{
+    display: inline-block;
+    margin-bottom: 5px;
+    width: -webkit-fill-available;
+    padding: 0px 10px;
+    font-family: 'Poppins';
+  }
+
+  body {
+    font-family: "Montserrat", sans-serif;
+    min-height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #242333;
+    color: #fff;
+    margin: 0;
+
+}
+
+* {
+    font-family: "Montserrat", sans-serif !important;
+    box-sizing: border-box;
+}
+
+/* .movie-container {
+    margin: 20px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column
+}
+
+.movie-container select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    padding: 5px 15px;
+    margin-bottom: 40px;
+    font-size: 14px;
+    border-radius: 5px;
+} */
+
+.container {
+    perspective: 1000px;
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -10px;
+}
+
+.seat {
+    background-color: #00A300;
+    height: 40px;
+    width: 50px;
+    margin: 3px;
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+    justify-content: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    /* margin-left: 10px; */
+}
+
+.selected {
+    background-color: #0081cb;
+}
+
+.Not_a {
+    background-color: #ff0404;
+}
+
+.seat:not(.Not_Available):hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.showcase .seat:not(.Not_Available):hover {
+    cursor: default;
+    transform: scale(1);
+}
+
+.showcase {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #777;
+}
+
+.showcase li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+}
+
+.showcase li small {
+    margin-left: 2px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.screen {
+  background: #fff;
+  height: 50px;
+  width: 200%;
+  color: black;
+  margin-left: -60px;
+  text-align: center;
+  font-size: 20px;
+  padding: 12px;
+  border-bottom: 50px ;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+  /* margin: 15px 0; */
+  transform: rotateX(-45deg);
+  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+}
+
+p.text {
+    margin: 40px 0;
+}
+
+p.text span {
+    color: #0081cb;
+    font-weight: 600;
+    box-sizing: content-box;
+}
+
+.credits a {
+    color: #fff;
+}
+
+.title {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.Booked {
+    background-color: #FFC300;
+    color: white;
+}
+
+
+.side {
+    font-size: 14px;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: absolute;
+    margin: 20px;
+    left: 50;
+    width: 80px;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-top: 70px;
+    background-color: #fff;
+    transform-origin: 0 0;
+}
+
+.circle1 {
+    left: 0;
+    border-radius: 50%;
+    width: 60px;
+    height: 50px;
+    padding: 8px 0px;
+    background: #ff0404;
+    border: 3px solid #000;
+    color: #fff;
+    text-align: center;
+    font: 12px Arial, sans-serif;
+    font-weight: bold;
+    display:inline;
+}
+
+.circle2 {
+    border-radius: 50%;
+    width: 60px;
+    height: 50px;
+    padding: 8px 0px;
+    background: #FFC300;
+    border: 3px solid #000;
+    color: #fff;
+    text-align: center;
+    font: 12px Arial, sans-serif;
+    font-weight: bold;
+    display:inline;
+}
+
+.circle3 {
+    border-radius: 50%;
+    width: 60px;
+    height: 50px;
+    padding: 8px 0px;
+    background: #00A300;
+    border: 3px solid #000;
+    color: #fff;
+    text-align: center;
+    font: 12px Arial, sans-serif;
+    font-weight: bold;
+    display:inline;
+}
+
+.circle4 {
+    border-radius: 50%;
+    width: 60px;
+    height: 50px;
+    padding: 8px 0px;
+    background: gray;
+    border: 3px solid #000;
+    color: #fff;
+    text-align: center;
+    font: 12px Arial, sans-serif;
+    font-weight: bold;
+}
+.trapezoid {
+	border-bottom: 50px solid #e6e6e6;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+  border-radius: 3px;
+	height: 0;
+	width: 350px;
+}

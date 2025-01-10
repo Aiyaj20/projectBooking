@@ -1,0 +1,121 @@
+<div>
+    <!-- <form nz-form #form9> -->
+    <form nz-form #websitebannerPage="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row>
+
+                
+
+
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Show Name </nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please Select Show Name">
+                                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Show Name "
+                                    [(ngModel)]="data.SHOW_ID" name="religion" required>
+                                    <!-- <nz-option *ngFor="let role of religion " [nzValue]="role.ID"
+                                        [nzLabel]="role.RELIGION_NAME">
+                                    </nz-option> -->
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+
+
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Row Name</nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Enter Row Name">
+                                <input nz-input name="cast" [pattern]="namepatt" [(ngModel)]="data.ROW_NAME" required />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Seat Number</nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please Enter Seat Number">
+                                <input nz-input name="caseet" (keypress)="omit($event)" [(ngModel)]="data.SEAT_NUMBER"
+                                    required />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+
+
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzRequired nzNoColon>Amounts</nz-form-label>
+                            <nz-form-control nzHasFeedback nzErrorTip="Please Enter Amount">
+                                <input nz-input name="ceeeeast" (keypress)="omit($event)" [(ngModel)]="data.AMOUNT"
+                                    required />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+
+
+
+
+                    <!-- <div nz-col nzSpan="8">
+                            <nz-form-item>
+                              <nz-form-label nzRequired nzNoColon>
+                               Status
+                              </nz-form-label>
+                              <nz-form-control nzHasFeedback nzErrorTip=" Please Select Status">
+                                <nz-select name="currencytype" nzAllowClear nzShowSearch style="width: 100%"
+                                  [(ngModel)]="data.PLAN_CURRENCY" nzPlaceHolder=" Select Status" required>
+                                 
+                                  <nz-option [nzValue]="'I'" [nzLabel]="'Rupee(₹)'"></nz-option>
+                                  <nz-option [nzValue]="'A'" [nzLabel]="'Doller($)'"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div> -->
+
+
+
+
+                          <div nz-col nzSpan="8">
+                            <nz-form-item>
+                              <nz-form-label nzNoColon>Status</nz-form-label>
+                              <nz-form-control>
+                                <nz-switch name="is_active" [(ngModel)]="data.STATUS"></nz-switch>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+
+        
+
+
+
+
+
+
+            </div>
+        </nz-spin>
+    </form>
+</div>
+
+<div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px">
+        <span> Cancel</span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button nz-dropdown [nzDropdownMenu]="menu"
+        (click)="save(false,websitebannerPage)">
+        <span>Save & Close</span>
+    </button>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+            <li nz-menu-item class="menuc" style="border-radius: 4px; background-color: #40a9ff">
+                <a style="color: white" (click)="save(true,websitebannerPage)"> Save & New</a>
+            </li>
+        </ul>
+    </nz-dropdown-menu>
+    <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" *ngIf="data.ID"
+        (click)="save(false,websitebannerPage)">
+        <span> Update & Close </span>
+    </button>
+</div>

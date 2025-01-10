@@ -1,0 +1,285 @@
+<form nz-form #form11="ngForm">
+  <div class="formname">
+    <!-- <b>Layout Group</b> -->
+  </div>
+
+  <div nz-row class="my-box" *ngIf="!isShowWiseLayout">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon>Layout Name</nz-form-label>
+        <br />
+        <nz-form-control nzHasFeedback nzErrorTip="Select Layout Group ">
+          <nz-select
+            nzShowSearch
+            name="machine-name"
+            nzAllowClear
+            required
+            [(ngModel)]="data.LAYOUT_ID"
+            nzPlaceHolder="Select Layout Group"
+            [disabled]="data.ID ? true : false"
+          >
+            <nz-option
+              *ngFor="let option of seatlayoutgrpname"
+              [nzLabel]="option.NAME"
+              [nzValue]="option.ID"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="6">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon> Price(₹) </nz-form-label>
+        <nz-form-control nzHasFeedback nzErrorTip="Please Enter Amount">
+          <input
+            nz-input
+            name="squesdncenumber"
+            maxlength="11"
+            [(ngModel)]="data.DEFAULT_RATE"
+            (ngModelChange)="onPriceChange($event)"
+            placeholder="Price"
+            (keypress)="onlynumdot($event)"
+            required
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="6">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon> Tax Amount(₹) </nz-form-label>
+        <nz-form-control nzHasFeedback nzErrorTip="Please Enter Tax Amount">
+          <input
+            nz-input
+            name="taxableamount"
+            maxlength="11"
+            [(ngModel)]="data.TAX_AMOUNT"
+            (ngModelChange)="onTaxAmountChange($event)"
+            placeholder="Tax amount"
+            (keypress)="onlynumdot($event)"
+            required
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="6">
+      <nz-form-item>
+        <nz-form-label nzRequired nzNoColon> Total Price </nz-form-label>
+        <nz-form-control nzHasFeedback nzErrorTip="Please Enter Total Amount">
+          <input
+            nz-input
+            name="totalamount"
+            maxlength="11"
+            [(ngModel)]="data.TOTAL_AMOUNT"
+            placeholder="Total"
+            disabled
+            required
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzMd="2" nzXs="5">
+      <nz-form-item>
+        <nz-form-label nzNoColon></nz-form-label>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="addData(true, form11)"
+          [nzLoading]="loadingRecords"
+        >
+          <span>Add</span>
+        </button>
+      </nz-form-item>
+    </div>
+  </div>
+  <br />
+  <!-- <button (click)="open1()">Layout</button> -->
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <nz-table
+        nzBordered
+        [nzData]="layoutDataList"
+        [nzLoading]="loadingRecords"
+        #newtabledata
+        nzFrontPagination="false"
+        [nzSize]="'small'"
+        [nzScroll]="{ y: '410px', x: screenwidth > 500 ? '' : '1200px' }"
+        (nzQueryParams)="sort($event)"
+      >
+        <thead>
+          <tr>
+            <th nzColumnKey="" nzWidth="15px" nzAlign="center" *ngIf="!isShowWiseLayout">
+              <p style="font-weight: bold">Action</p>
+            </th>
+            <th nzColumnKey="" nzWidth="15px" nzAlign="center" *ngIf="!isShowWiseLayout">
+              <p style="font-weight: bold">Delete</p>
+            </th>
+            <th  nzColumnKey="" nzWidth="25px" nzAlign="center">
+              <p style="font-weight: bold">Seat layout</p>
+            </th>
+
+            <!-- <th nzColumnKey="" nzWidth="25px" nzAlign="center">
+              <p style="font-weight: bold">Seq No.</p>
+            </th> -->
+
+            <th
+              nzWidth="40px"
+              style="text-align: center; font-weight: bold"
+              nzColumnKey="{{ 'LAYOUT_NAME' }}"
+            >
+              Layout Name
+            </th>
+            <th
+              nzWidth="25px"
+              style="text-align: center; font-weight: bold"
+              nzColumnKey="{{ 'DEFAULT_RATE' }}"
+            >
+              Price (₹)
+            </th>
+            <th
+              nzWidth="25px"
+              style="text-align: center; font-weight: bold"
+              nzColumnKey="{{ 'TAX_AMOUNT' }}"
+            >
+              Tax Amount (₹)
+            </th>
+            <th nzWidth="25px" style="text-align: center; font-weight: bold">
+              Total (₹)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let data of newtabledata.data; let i = index"
+            style="white-space: pre-line"
+          >
+            <td style="text-align: center" *ngIf="!isShowWiseLayout">
+              <a (click)="edit(data)" nz-tooltip nzTooltipTitle="Edit">
+                <span
+                  nz-icon
+                  nzType="edit"
+                  nzTheme="twotone"
+                  style="margin-top: 10px"
+                ></span>
+              </a>
+            </td>
+            <td style="text-align: center; font-weight: bold" *ngIf="!isShowWiseLayout">
+              <a
+                nz-popconfirm
+                nzPopconfirmTitle="Are you sure want to delete this Group?"
+                (nzOnConfirm)="deletebooking(data)"
+                ><span nz-icon nzType="delete" nzTheme="outline"></span
+              ></a>
+            </td>
+
+            <td  style="text-align: center">
+              <a (click)="layoutbutton1(data)"> Seat Layout </a>
+            </td>
+            <!-- <td style="text-align: center;">
+              {{data['SEQUENCE_NUMBER']}}
+            </td> -->
+            <td style="text-align: center">
+              {{ data["LAYOUT_NAME"] }}
+            </td>
+            <td style="text-align: center">{{ data["DEFAULT_RATE"] }}</td>
+            <td style="text-align: center">{{ data["TAX_AMOUNT"] }}</td>
+            <td style="text-align: center">
+              {{ data["DEFAULT_RATE"] + data["TAX_AMOUNT"] }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</form>
+<div class="footer">
+  <button
+   *ngIf="isShowWiseLayout && (bookingStatus=='NSY' || bookingStatus=='BS')"
+    nz-popconfirm
+    nzPopconfirmTitle="Are You Sure You Want to Assign Layout"
+    (nzOnConfirm)="assignLayout()"
+    nzOkText="Yes"
+    nzCancelText="No"
+    type="button"
+    nz-button
+    [nzLoading]="loadingRecords"
+    class="ant-btn"
+    style="margin-right: 8px"
+    nzType="primary"
+  >
+    <span>Assign Layout</span>
+  </button>
+  <button
+    type="button"
+    nz-button
+    (click)="showModal()"
+    [nzLoading]="loadingRecords"
+    class="ant-btn"
+    style="margin-right: 8px"
+    nzType="primary"
+  >
+    <span>Preview</span>
+  </button>
+
+  <button
+    type="button"
+    nz-button
+    (click)="close()"
+    class="ant-btn"
+    style="margin-right: 8px"
+  >
+    <span>Cancel</span>
+  </button>
+</div>
+
+<div *ngIf="layoutbuttonVisible">
+  <nz-drawer
+    [nzBodyStyle]="{ overflow: 'auto' }"
+    [nzMaskClosable]="false"
+    [nzWidth]="1200"
+    [nzVisible]="layoutbuttonVisible"
+    [nzTitle]="drawerTitletemplate2"
+    (nzOnClose)="close1()"
+  >
+    <ng-container *nzDrawerContent>
+      <app-layoutbuttondetails
+        [layoutbutton]="layoutbutton"
+        [layoutbuttonDataList]="layoutbuttonDataList"
+        [drawerClose]="closeCallback1"
+        [theaterId]="theaterId"
+        [layoutmapId]="layoutmapId"
+        [isShowWiseLayout]="isShowWiseLayout"
+        [masterid]="masterid"
+      ></app-layoutbuttondetails>
+    </ng-container>
+    <ng-template #drawerTitletemplate2>
+      <b>{{ seatlayouttitle }}</b>
+    </ng-template>
+  </nz-drawer>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="theatreLAyouttitle"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+  [nzWidth]="1100"
+>
+  <ng-container *nzModalContent>
+    <nz-spin [nzSpinning]="loadmodal">
+      <div style="height: 350px; overflow-y: scroll">
+        <img style="width: 100%" [src]="Imgurldata" />
+      </div>
+    </nz-spin>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+  </div>
+  <ng-template #theatreLAyouttitle>
+    <b>Theatre Layout Group</b>
+  </ng-template>
+</nz-modal>

@@ -1,0 +1,71 @@
+<span style="text-align: center;">Row Name :- <b>{{rowname}}</b></span>
+<div nz-row>
+    <div nz-col nzSpan="24">
+        <nz-table nzBordered [nzLoading]="loadingRecords" #newtabledata [nzData]="datataa1" nzFrontPagination="false"
+            [nzSize]="'small'" [nzScroll]="{ y: '410px', x: screenwidth > 500 ? '' : '1200px' }">
+
+            <thead>
+                <tr>
+
+
+                    <th nzColumnKey="" nzWidth="25px" nzAlign="center">
+                        <p style="font-weight: bold">Seat layout</p>
+                    </th>
+
+                    <th nzColumnKey="" nzWidth="70px" nzAlign="center">
+                        <!-- <p style="font-weight: bold"> Available For Booking</p> -->
+                        <!-- <nz-switch name="selectAll" nzCheckedChildren="All" nzUnCheckedChildren="None"
+                            (ngModelChange)="onSelectAllChecked($event)" [(ngModel)]="SELECT_ALL">
+                        </nz-switch> -->
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of newtabledata.data; let i = index" style="white-space: pre-line">
+
+
+                    <td style="text-align: center;">
+                        {{data}}
+                    </td>
+
+
+                    <!-- <nz-form-control style="text-align: center;">
+                        <nz-switch name="is_active" nzCheckedChildren="Yes" nzUnCheckedChildren="No"
+                            [(ngModel)]="datataa1[i].IS_AVAILABLE_FOR_BOOKING"
+                            (ngModelChange)="onchange($event)"></nz-switch>
+                    </nz-form-control> -->
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+
+
+<!-- <button type="button" class="ant-btn ant-btn-primary" (click)="addbulk()" nz-button>
+    <span>Update & Close</span>
+</button> -->
+
+<div class="header">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px">
+        <i nz-icon nzType="close" nzTheme="outline"></i>
+    </button>
+</div>
+
+
+
+
+<div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px">
+        <span>Cancel</span>
+    </button>
+    <!-- <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button nz-dropdown
+        [nzDropdownMenu]="menu" (click)="save(false,websitebannerPage)">
+        <span>Save & Close</span>
+    </button> -->
+
+    <button type="button" class="ant-btn ant-btn-primary" nz-button (click)="addbulk()">
+        <span>Update & Close</span>
+    </button>
+</div>

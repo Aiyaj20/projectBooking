@@ -1,0 +1,81 @@
+<div nz-row nzType="flex">
+    <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+        <div class="formname"> <b> {{formTitle}} </b></div>
+    </div>
+
+    <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex;justify-content: flex-end">
+        <form nz-form [nzLayout]="'inline'">
+            <nz-form-item>
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text"   autocomplete="off" name="postsearch" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input
+                        placeholder="Search Record" />
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="primary" (click)="search(true)" nzSearch><i nz-icon
+                            nzType="search"></i></button>
+                </ng-template>
+            </nz-form-item>
+            <nz-form-item>
+                <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+                    <i nz-icon nzType="plus"></i>Add New City</button>
+            </nz-form-item>
+
+        </form>
+    </div>
+</div>
+
+<br>
+<div nz-row>
+    <div nz-col nzSpan="24">
+        <nz-table class="my-scroll no-wrap1" nzBordered #datatable nzShowSizeChanger [nzFrontPagination]="false"
+            [nzData]="dataList" [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ x: '800px', y: '420px' }"
+            [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+            (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)">
+            <thead>
+                <tr>
+                    <th nzWidth="20px" style="font-weight: bold; text-align: center;">Action</th>
+                    <th nzWidth="20px" style="font-weight: bold; text-align: center;" nzColumnKey="SEQUENCE_NUMBER" [nzSortFn]="true">Sequence No.</th>
+
+                    <th nzWidth="50px" style="font-weight: bold; text-align: center;" nzColumnKey="NAME" [nzSortFn]="true">City Name</th>
+
+                    <th nzWidth="20px" style="font-weight: bold; text-align: center;" nzColumnKey="STATUS" [nzSortFn]="true">Status</th>
+
+
+                </tr>
+            </thead>
+            <tbody style="text-align: center">
+                <tr *ngFor="let data of datatable.data" style="text-align: center;">
+                    <td>
+                        <a (click)="edit(data)">Edit </a>
+                    </td>
+                    <td style="text-align: center;white-space: pre-line;">{{data['SEQUENCE_NUMBER']}}</td>
+
+                    <td style="text-align: left;text-overflow: ellipsis;overflow: hidden;white-space: nowrap; " nz-tooltip [nzTooltipTitle]="data['NAME']"
+                    nzTooltipPlacement="top">{{data['NAME']}}</td>
+
+
+                    <td style="text-align: center;white-space: pre-line;">
+                        <i nz-icon *ngIf="data['STATUS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+                            [nzTwotoneColor]="'#52c41a'"></i>
+                        <i nz-icon *ngIf="!data['STATUS']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+                            [nzTwotoneColor]="'#f50'"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+
+
+    <nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+        [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="unitWidth" [nzVisible]="drawerVisible"
+        [nzTitle]="drawerTitleTemplate" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+        <ng-container *nzDrawerContent>
+            <app-add-city [drawerClose]="closeCallback"  [drawerVisible]="drawerVisible"
+                [data]="drawerData"></app-add-city>
+        </ng-container>
+    </nz-drawer>
+    <ng-template #drawerTitleTemplate>
+        <b>{{ drawerTitle }}</b>
+    </ng-template>
+    
+</div>

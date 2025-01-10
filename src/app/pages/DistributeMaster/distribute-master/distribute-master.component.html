@@ -1,0 +1,265 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname">
+      <b> {{ formTitle }} </b>
+    </div>
+  </div>
+
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <button nz-button [nzType]="isFilterApplied" (click)="showFilter()">
+          <i nz-icon nzType="filter"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="postsearch"
+            (keyup)="keyup($event)"
+            [(ngModel)]="searchText"
+            nz-input
+            placeholder="Search Record"
+            autocomplete="off"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" (click)="search(true)" nzSearch>
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+      <nz-form-item>
+                <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+                    <i nz-icon nzType="plus"></i>Add New Distributor </button>
+            </nz-form-item>
+    </form>
+  </div>
+</div>
+
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <div class="filter {{ filterClass }}">
+      <div class="filter-box">
+        <form nz-form>
+          <div nz-row nzGutter="8">
+            <div nz-col nzSpan="6">
+              <nz-form-label nzNoColon><b>Select Theaters</b></nz-form-label>
+              <nz-form-item>
+                <nz-select
+                  nzMode="multiple"
+                  nz-input
+                  name="theaterselect"
+                  [(ngModel)]="theaterid"
+                  nzPlaceHolder="Select Theaters"
+                  nzAllowClear
+                  nzShowSearch
+                >
+                  <nz-option
+                    *ngFor="let option of theaterslist"
+                    [nzValue]="option.ID"
+                    [nzLabel]="option.NAME"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="8">
+              <nz-form-label nzNoColon></nz-form-label>
+              <nz-form-item style="margin-left: 10px">
+                <button
+                  style="margin-right: 10px"
+                  nz-button
+                  [nzLoading]="isSpinning"
+                  nzType="primary"
+                  (click)="applyFilter()"
+                  nzJustify="end"
+                >
+                  <i nz-icon nzType="filter"></i>Apply filter
+                </button>
+                <button nz-button nzType="primary" (click)="clearFilter()">
+                  <i nz-icon nzType="filter"></i>Clear Filter
+                </button>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<br/>
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table
+      class="my-scroll no-wrap1"
+      nzBordered
+      #distrubutedtable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '1800px', y: '720px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+    >
+      <thead>
+        <tr>
+          <th nzWidth="20px" style="font-weight: bold; text-align: center">
+            Action
+          </th>
+          <th
+            nzWidth="60px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+            nzColumnKey="NAME"
+          >
+            Name
+          </th>
+
+          <th
+            nzWidth="70px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+            nzColumnKey="EMAIL_ID"
+
+          >
+            Email
+          </th>
+
+          <th
+            nzWidth="50px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+            nzColumnKey="MOBILE_NUMBER"
+
+          >
+            Mobile No
+          </th>
+
+          <th
+            nzWidth="60px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+            nzColumnKey="ADDRESS"
+
+          >
+            Address
+          </th>
+
+          <th
+            nzWidth="90px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+            nzColumnKey="THEATRE_NAME"
+
+          >
+            Theater Name
+          </th>
+
+          <th
+            nzWidth="20px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+            nzColumnKey="IS_ACTIVE"
+
+          >
+            Status
+          </th>
+        </tr>
+      </thead>
+      <tbody style="text-align: center">
+        <tr
+          *ngFor="let data of distrubutedtable.data"
+          style="text-align: center"
+        >
+          <td>
+            <a (click)="edit(data)">Edit </a>
+          </td>
+          <td style="text-align: left; white-space: pre-line">
+            {{ data["NAME"] }}
+          </td>
+
+          <td style="text-align: left; white-space: pre-line">
+            {{ data["EMAIL_ID"] }}
+          </td>
+
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["MOBILE_NUMBER"] }}
+          </td>
+          <td style="text-align: left; white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"
+            nz-tooltip  [nzTooltipPlacement]="'top'" [nzTooltipTitle]="data['ADDRESS']">
+            {{ data["ADDRESS"] }}
+          </td>
+
+          <td style="text-align: left; white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"
+          nz-tooltip [nzTooltipPlacement]="'top'" [nzTooltipTitle]="data['THEATRE_NAME']" >
+            {{ data["THEATRE_NAME"] }}
+            <!-- <span *ngIf="data.CITY_NAME"> ({{ data.CITY_NAME }})</span> -->
+          </td>
+
+          <td style="text-align: center; white-space: pre-line">
+            <i
+              nz-icon
+              *ngIf="data['IS_ACTIVE']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['IS_ACTIVE']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-drawer
+    [nzBodyStyle]="{
+      height: 'calc(100% - 55px)',
+      overflow: 'auto',
+      'padding-bottom': '53px'
+    }"
+    [nzClosable]="false"
+    [nzMask]="true"
+    [nzMaskClosable]="false"
+    [nzWidth]="470"
+    [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitletemp"
+    (nzOnClose)="drawerClose()"
+    (nzKeyboard)="(true)"
+  >
+    <ng-container *nzDrawerContent>
+      <app-add-distribute-master
+        [drawerClose]="closeCallback"
+        [drawerVisible]="drawerVisible"
+        [data]="drawerData" 
+        [DataList]="DataList"
+      ></app-add-distribute-master>
+    </ng-container>
+    <ng-template #drawerTitletemp>
+     <b>
+      {{drawerTitle}}
+     </b>
+    </ng-template>
+  </nz-drawer>

@@ -1,0 +1,454 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname"><b> Category Wise Report</b></div>
+  </div>
+
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <button nz-button nzType="primary" (click)="importInExcel()">
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+
+        <!-- <button nz-button nzType="primary" hidden="true"
+                    id="downloadExcel" [appExport]="bookingsexcel"
+                    fileName="citywiseshowreports"   nzTooltipTitle="Excel"
+        nzTooltipPlacement="top"
+        nz-tooltip>
+                    <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+                </button> -->
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button [nzType]="isFilterApplied" (click)="showFilter()">
+          <i nz-icon nzType="filter"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="aboutsearch"
+            (keyup)="keyup($event)"
+            (keydown.enter)="onKeypressEvent($event)"
+            [(ngModel)]="searchText"
+            nz-input
+            placeholder="Search Record"
+            autocomplete="off"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button
+            nz-button
+            nzType="primary"
+            (click)="search(true)"
+            id="button"
+            nzSearch
+          >
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+
+<div nz-row *ngIf="userId == 1">
+  <div nz-col nzSpan="24">
+    <div class="filter {{ filterClass }}">
+      <div class="filter-box">
+        <form nz-form>
+          <div nz-row nzGutter="8">
+            <!-- <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzNoColon>Show Date </nz-form-label>
+                <nz-range-picker
+                  [nzFormat]="dateFormat"
+                  name="selectedDate"
+                  [(ngModel)]="selectedDate"
+                  (ngModelChange)="DateChange($event)"
+                >
+                </nz-range-picker>
+              </nz-form-item>
+            </div> -->
+
+            <div nz-col nzSpan="4">
+              <nz-form-item>
+                <nz-form-label nzNoColon>City</nz-form-label>
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  name="CITY_ID"
+                  [(ngModel)]="CITY_ID"
+                  nzPlaceHolder="Select City"
+                  (ngModelChange)="gettheatername($event)"
+                >
+                  <nz-option [nzValue]="0" [nzLabel]="'All'"> </nz-option>
+                  <nz-option
+                    *ngFor="let city of cities"
+                    [nzValue]="city.ID"
+                    [nzLabel]="city.NAME"
+                  >
+                  </nz-option>
+                </nz-select>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="10">
+              <nz-form-item>
+                <nz-form-label nzNoColon>Theater Name</nz-form-label>
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  name="theaternm"
+                  [(ngModel)]="THEATRE_ID"
+                  nzPlaceHolder="Select Theater Name"
+                  (ngModelChange)="getshowname(DRAMA_ID,$event)"
+                >
+                  <nz-option [nzValue]="0" [nzLabel]="'All'"> </nz-option>
+                  <nz-option
+                    *ngFor="let iname of theater"
+                    [nzValue]="iname.ID"
+                    [nzLabel]="iname.NAME"
+                  >
+                  </nz-option>
+                </nz-select>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="10">
+              <nz-form-item>
+                <nz-form-label nzNoColon>Drama </nz-form-label>
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  name="Drama"
+                  [(ngModel)]="DRAMA_ID"
+                  nzPlaceHolder="Select Drama "
+                  nzMode="multiple"
+                  (ngModelChange)="getshowname($event,THEATRE_ID)"
+                >
+                  <nz-option
+                    *ngFor="let drama of dramas"
+                    [nzValue]="drama.ID"
+                    [nzLabel]="drama.NAME"
+                  >
+                  </nz-option>
+                </nz-select>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzNoColon>Show </nz-form-label>
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  name="Show"
+                  [(ngModel)]="SHOW_ID"
+                  nzPlaceHolder="Select Show Name"
+                >
+                  <nz-option [nzValue]="0" [nzLabel]="'All'"> </nz-option>
+
+                  <nz-option
+                    *ngFor="let show of shows"
+                    [nzValue]="show.ID"
+                  [nzLabel]="show.DATE| date:'dd-MM-yyyy' + ' - ' + show.START_TIME"
+                  >
+                  <!-- nzLabel="{{show.DATE | date:'dd-MM-yyyy'}}  {{show.START_TIME | date:'hh:mm a'}}" -->
+                  </nz-option>
+                </nz-select>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6" style="padding-top: 30px">
+              <nz-form-item>
+                <button
+                  style="margin-right: 5px"
+                  nz-button
+                  [nzLoading]="isSpinning"
+                  nzType="primary"
+                  (click)="applyFilter()"
+                  nzJustify="end"
+                >
+                  <i nz-icon nzType="filter"></i>Apply filter
+                </button>
+                <button nz-button nzType="primary" (click)="clearFilter()">
+                  <i nz-icon nzType="filter"></i>Clear Filter
+                </button>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div nz-row *ngIf="userId != 1">
+  <div nz-col nzSpan="24">
+    <div class="filter {{ filterClass }}">
+      <div class="filter-box">
+        <form nz-form>
+          <div nz-row nzGutter="8">
+            <!-- <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzNoColon>Show Date </nz-form-label>
+                <nz-range-picker
+                  [nzFormat]="dateFormat"
+                  name="selectedDate"
+                  [(ngModel)]="selectedDate"
+                  (ngModelChange)="DateChange($event)"
+                >
+                </nz-range-picker>
+              </nz-form-item>
+            </div> -->
+
+            <!-- <div nz-col nzSpan="4">
+              <nz-form-item>
+                <nz-form-label nzNoColon>City</nz-form-label>
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  name="CITY_ID"
+                  [(ngModel)]="CITY_ID"
+                  nzPlaceHolder="Select City"
+                  (ngModelChange)="gettheatername($event)"
+                >
+                  <nz-option [nzValue]="0" [nzLabel]="'All'"> </nz-option>
+                  <nz-option
+                    *ngFor="let city of cities"
+                    [nzValue]="city.ID"
+                    [nzLabel]="city.NAME"
+                  >
+                  </nz-option>
+                </nz-select>
+              </nz-form-item>
+            </div> -->
+            <div nz-col nzSpan="10">
+              <nz-form-item>
+                <nz-form-label nzNoColon>Theater Name</nz-form-label>
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  name="theaternm1"
+                  [(ngModel)]="THEATRE_ID"
+                  nzPlaceHolder="Select Theater Name"
+                  (ngModelChange)="getshowname1($event)"
+                >
+                  <!-- <nz-option [nzValue]="0" [nzLabel]="'All'"> </nz-option> -->
+                  <nz-option
+                    *ngFor="let iname of theater"
+                    [nzValue]="iname.ID"
+                    [nzLabel]="iname.NAME"
+                  >
+                  </nz-option>
+                </nz-select>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="10">
+              <nz-form-item>
+                <nz-form-label nzNoColon>Drama </nz-form-label>
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  name="Drama1"
+                  [(ngModel)]="DRAMA_ID"
+                  nzPlaceHolder="Select Drama "
+                  nzMode="multiple"
+                  (ngModelChange)="getshowname($event,THEATRE_ID)"
+                >
+                  <nz-option
+                    *ngFor="let drama of dramas"
+                    [nzValue]="drama.DRAMA_ID"
+                    [nzLabel]="drama.DRAMA_NAME"
+                  >
+                  </nz-option>
+                </nz-select>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzNoColon>Show </nz-form-label>
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  name="Show1"
+                  [(ngModel)]="SHOW_ID"
+                  nzPlaceHolder="Select Show Name"
+                >
+                  <nz-option [nzValue]="0" [nzLabel]="'All'"> </nz-option>
+
+                  <nz-option
+                    *ngFor="let show of shows"
+                    [nzValue]="show.ID"
+                  [nzLabel]="show.DATE| date:'dd-MM-yyyy' + ' - ' + show.START_TIME"
+                  >
+                  <!-- nzLabel="{{show.DATE | date:'dd-MM-yyyy'}}  {{show.START_TIME | date:'hh:mm a'}}" -->
+                  </nz-option>
+                </nz-select>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6" style="padding-top: 30px">
+              <nz-form-item>
+                <button
+                  style="margin-right: 5px"
+                  nz-button
+                  [nzLoading]="isSpinning"
+                  nzType="primary"
+                  (click)="applyFilter()"
+                  nzJustify="end"
+                >
+                  <i nz-icon nzType="filter"></i>Apply filter
+                </button>
+                <button nz-button nzType="primary" (click)="clearFilter()">
+                  <i nz-icon nzType="filter"></i>Clear Filter
+                </button>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div nz-row style="margin-top: 10px;">
+  <div nz-col nzSpan="24">
+    <nz-table
+      class="my-scroll no-wrap1"
+      nzBordered
+      #basicTable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="bookingdetails"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '2200px', y: '350px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+      id="excel-table"
+    >
+      <thead>
+        <tr style="font-weight: bold">
+          <th
+            nzWidth="125px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'THEATRE_NAME' }}"
+            [nzSortFn]="true"
+          >
+            Theatre Name
+          </th>
+          <th
+            nzWidth="80px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'SHOW_NAME' }}"
+            [nzSortFn]="true"
+          >
+          Drama
+          </th>
+          <th
+            nzWidth="75px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'GROUP_LAYOUT_NAME' }}"
+            [nzSortFn]="true"
+          >
+            Group Layout Type
+          </th>
+          <th
+            nzWidth="70px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'SHOW_TIME' }}"
+            [nzSortFn]="true"
+          >
+            Show Time
+          </th>
+          <th
+            nzWidth="35px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'AMOUNT' }}"
+            [nzSortFn]="true"
+          >
+            Price(Rs.)
+          </th>
+          <th
+            nzWidth="50px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'TOTAL_SEATS' }}"
+            [nzSortFn]="true"
+          >
+            Total Tickets
+          </th>
+          <th
+            nzWidth="60px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'RESERVED_SEATS' }}"
+            [nzSortFn]="true"
+          >
+            Reserved Tickets
+          </th>
+          <th
+            nzWidth="70px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'AVAILABLE_FOR_BOOKING' }}"
+            [nzSortFn]="true"
+          >
+            Available For Booking
+          </th>
+          <th
+            nzWidth="45px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'BOOKED_SEATS' }}"
+            [nzSortFn]="true"
+          >
+            Sold Tickets
+          </th>
+          <th
+            nzWidth="50px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'SOLD_AMOUNT' }}"
+            [nzSortFn]="true"
+          >
+            Sold Amount(Rs.)
+          </th>
+          <th
+            nzWidth="65px"
+            style="text-align: center; font-weight: bold"
+            nzColumnKey="{{ 'AVAILABLE_SEATS' }}"
+            [nzSortFn]="true"
+          >
+            Remaining Tickets
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td  style="white-space: pre-line;text-align: left">{{ data.THEATRE_NAME }}</td>
+          <td style="white-space: pre-line;text-align: center">{{ data.SHOW_NAME }}</td>
+          <td style="white-space: pre-line;text-align: center">{{ data.GROUP_LAYOUT_NAME }}</td>
+          <td style="white-space: pre-line;text-align: center">
+            {{ data.SHOW_TIME | date : "dd-MM-yyyy HH:mm:ss" }}
+          </td>
+          <td style="white-space: pre-line;text-align: center">{{ data.AMOUNT }}</td>
+          <td style="white-space: pre-line;text-align: center">{{ data.TOTAL_SEATS }}</td>
+          <td style="white-space: pre-line;text-align: center">{{ data.RESERVED_SEATS }}</td>
+          <td style="white-space: pre-line;text-align: center">
+            {{ data.AVAILABLE_FOR_BOOKING }}
+          </td>
+          <td style="white-space: pre-line;text-align: center">{{ data.BOOKED_SEATS }}</td>
+          <td style="white-space: pre-line;text-align: center">{{ data.SOLD_AMOUNT }}</td>
+          <td style="white-space: pre-line;text-align: center">{{ data.AVAILABLE_SEATS }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

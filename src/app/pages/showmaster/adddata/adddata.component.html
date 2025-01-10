@@ -1,0 +1,536 @@
+<div>
+  <form nz-form #Showmasterform="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row class="my-box">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Theater Name </nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip="Please Select Theatre Name "
+            >
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                [nzLoading]="loadingRecords"
+                nzPlaceHolder="Select Theatre Name"
+                [disabled]="data.ID ? true : false"
+                [(ngModel)]="data.THEATRE_ID"
+                (ngModelChange)="getDistributor($event)"
+                (ngModelChange)="filterlayout($event)"
+                name="Theater_Name"
+                required
+              >
+                <nz-option
+                  nzLabel="{{ role.NAME }} / ({{ role.CITY_NAME }})"
+                  *ngFor="let role of details"
+                  [nzValue]="role.ID"
+                >
+                  <!-- <span> {{ role.NAME }} ({{ role.CITY_NAME }}) </span> -->
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Drama Name</nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip="Please Select Drama Name"
+            >
+              <nz-select
+                nzShowSearch
+                [nzLoading]="loadingRecords"
+                nzAllowClear
+                nzPlaceHolder="Select Drama Name"
+                (ngModelChange)="filterdrama($event)"
+                [(ngModel)]="data.DRAMA_ID"
+                [disabled]="data.ID ? true : false"
+                name="Drama_Name"
+                required
+              >
+                <nz-option
+                  *ngFor="let role of detail"
+                  [nzLabel]="role.NAME"
+                  [nzValue]="role.ID"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Distributor Name</nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip="Please Select Distributor Name"
+            >
+              <nz-select
+                nzShowSearch
+                [nzLoading]="loadingRecords"
+                nzAllowClear
+                nzPlaceHolder="Select Distributor Name"
+                [(ngModel)]="data.DISTIBUTOR_ID"
+                [disabled]="
+                  data.BOOKING_STATUS == 'NSY' ||
+                  data.BOOKING_STATUS == 'BS' ||
+                  data.BOOKING_STATUS == ''
+                    ? false
+                    : true
+                "
+                name="Distributor_Name"
+                required
+              >
+                <nz-option
+                  *ngFor="let role of distributorslist"
+                  [nzLabel]="role.USER_NAME"
+                  [nzValue]="role.USER_ID"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row class="my-box">
+        <div nz-col nzSpan="6">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Date </nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please Select Date">
+              <nz-date-picker
+                style="width: 100%"
+                [nzFormat]="dateFormat"
+                [nzDisabledDate]="disabledDate"
+                (nzOnOpenChange)="openOnlyMappedDates()"
+                name="Date"
+                [nzShowToday]="isShowToday"
+                [(ngModel)]="data.DATE"
+                required
+              ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="6">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Start Time</nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip="Please Select Start Time "
+            >
+              <nz-time-picker
+                nzShowTime
+                [(ngModel)]="data.START_TIME"
+                required
+                nz-input
+                [nzFormat]="'HH:mm'"
+                [disabled]="
+                  data.BOOKING_STATUS == 'NSY' ||
+                  data.BOOKING_STATUS == 'BS' ||
+                  data.BOOKING_STATUS == ''
+                    ? false
+                    : true
+                "
+                style="width: 100%"
+                name="starttime"
+              ></nz-time-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="5">
+          <nz-form-item>
+            <nz-form-label nzNoColon>End Time</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please Select End Time ">
+              <nz-time-picker
+                nzShowTime
+                [(ngModel)]="data.END_TIME"
+                required
+                nz-input
+                [nzFormat]="'hh:mm'"
+                style="width: 100%"
+                [disabled]="
+                  data.BOOKING_STATUS == 'NSY' ||
+                  data.BOOKING_STATUS == 'BS' ||
+                  data.BOOKING_STATUS == ''
+                    ? false
+                    : true
+                "
+                name="endtime"
+              ></nz-time-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="7">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Booking Status </nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip="Please Select Booking Status"
+            >
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                name="Booking_Status"
+                placeholder="Please Select Booking Status"
+                [(ngModel)]="data.BOOKING_STATUS"
+                required
+              >
+                <nz-option
+                  [nzValue]="'NSY'"
+                  [nzLabel]="'Booking Not Started Yet'"
+                ></nz-option>
+                <nz-option
+                  [nzValue]="'S'"
+                  [nzLabel]="'Booking Started'"
+                ></nz-option>
+
+                <nz-option
+                  [nzValue]="'BF'"
+                  [nzLabel]="'Booking Full'"
+                ></nz-option>
+                <nz-option
+                  [nzValue]="'BS'"
+                  [nzLabel]="'Booking Stopped'"
+                ></nz-option>
+                <nz-option
+                  [nzValue]="'SC'"
+                  [nzLabel]="'Show Cancelled'"
+                ></nz-option>
+                <nz-option
+                  [nzValue]="'C'"
+                  [nzLabel]="'Show Completed'"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <!-- new -->
+      <br />
+      <div nz-row>
+        <div nz-col nzSpan="13">
+          <div>
+            <nz-table
+              nzBordered
+              [nzData]="data['TICKET_RATE']"
+              #newtabledata
+              nzFrontPagination="false"
+              [nzSize]="'small'"
+              [nzLoading]="loadingRecords"
+            >
+              <thead>
+                <tr>
+                  <th
+                    nzWidth="10px"
+                    style="text-align: center; font-weight: bold"
+                  >
+                    Edit
+                  </th>
+                  <th
+                    nzWidth="40px"
+                    style="text-align: center; font-weight: bold"
+                    nzColumnKey="{{ 'LAYOUT_NAME' }}"
+                  >
+                    Layout Group
+                  </th>
+                  <th
+                    nzWidth="25px"
+                    style="text-align: center; font-weight: bold"
+                    nzColumnKey="{{ 'AMOUNT' }}"
+                  >
+                    Price
+                  </th>
+                </tr>
+              </thead>
+      
+              <tbody>
+                <tr
+                  *ngFor="let item of newtabledata.data; let i = index"
+                  style="white-space: pre-line"
+                >
+                  <td style="text-align: center">
+                    <a nz-tooltip nzTooltipTitle="Edit" (click)="focusInput(i)">
+                      <span
+                        nz-icon
+                        nzType="edit"
+                        nzTheme="twotone"
+                        style="margin-top: 10px"
+                      ></span>
+                    </a>
+                  </td>
+                  <td style="text-align: center">
+                    {{ item["LAYOUT_NAME"] }}
+                  </td>
+                  <td style="text-align: center">
+                    <input
+                      type="text"
+                      class="ipe"
+                      name="{{ i + 1 }}"
+                      [(ngModel)]="item['DEFAULT_RATE']"
+                      (keypress)="onlynumdot($event)"
+                      [disabled]="
+                        data.BOOKING_STATUS == 'NSY' ||
+                        data.BOOKING_STATUS == ''
+                          ? false
+                          : true
+                      "
+                      #inputElement
+                    /><br />
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+      
+        <div nz-col nzSpan="11">
+          <div nz-row>
+            <div nz-col nzSpan="6" style="margin-left: 100px">
+              <nz-form-label nzNoColon><b>Total Seats</b> </nz-form-label>
+              <nz-form-control
+                nzHasFeedback
+                nzErrorTip="Please Enter Total Seats"
+              >
+                <input
+                  maxlength="5"
+                  [pattern]="onlynumber"
+                  name="total_seats"
+                  (keypress)="omit($event)"
+                  [(ngModel)]="data.TOTAL_SEATS"
+                  disabled
+                  required
+                />
+              </nz-form-control>
+            </div>
+          </div>
+      
+          <div nz-row>
+            <div nz-col nzSpan="8" style="margin-left: 100px">
+              <nz-form-label nzNoColon><b>Available Seats</b></nz-form-label>
+              <nz-form-control
+                nzHasFeedback
+                nzErrorTip="Please Enter Available Seats"
+              >
+                <input
+                  maxlength="5"
+                  name="available_seats"
+                  disabled
+                  (keypress)="omit($event)"
+                  [(ngModel)]="data.AVAILABLE_SEATS"
+                  required
+                />
+              </nz-form-control>
+            </div>
+          </div>
+        </div>
+        <div nz-col nzSpan="12" style="margin-top: 10px">
+          <nz-form-item>
+            <nz-form-label nzNoColon class="IS_ACTIVE" class="status"
+              >Is Active?</nz-form-label
+            >
+            <nz-form-control>
+              <nz-switch
+                name="IS_ACTIVE"
+                [(ngModel)]="data.IS_ACTIVE"
+              ></nz-switch>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <!-- 
+
+            <div nz-row>
+
+
+                <div nz-col nzSpan="12" style="background-color: black;">
+
+                
+                        <div>
+                            <nz-table nzBordered [nzData]="layoutDataList" #newtabledata nzFrontPagination="false"
+                                [nzSize]="'small'" [nzScroll]="{ y: '410px', x: screenwidth > 500 ? '' : '1200px' }"
+                                [nzLoading]="loadingRecords">
+
+                                <thead>
+                                    <tr>
+
+                                        <th nzWidth="40px" style="text-align: center;font-weight: bold"
+                                            nzColumnKey="{{'LAYOUT_NAME'}}">Layout Group</th>
+                                        <th nzWidth="25px" style="text-align: center;font-weight: bold"
+                                            nzColumnKey="{{'DEFAULT_RATE'}}">Price</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let data of newtabledata.data; let i = index"
+                                        style="white-space: pre-line">
+
+
+            
+
+                                        <td style="text-align: center;"><a (click)="layoutbutton1(data)"> Seat Layout
+                                            </a></td>
+                                        <td style="text-align: center;">
+                                            {{data['LAYOUT_NAME']}}
+                                        </td>
+
+                                        <td style="text-align: center;">{{data['DEFAULT_RATE']}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+
+
+
+
+
+
+
+
+                    <div nz-col nzSpan="12">
+
+                        
+                            <div nz-row>
+                                <div nz-col nzSpan="6">
+
+                                    <nz-form-label nzRequired nzNoColon>Total Seats </nz-form-label>
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please Enter Total Seats">
+
+                                        <input maxlength="5" [pattern]="onlynumber" name="total_seats"
+                                            (keypress)="omit($event)" [(ngModel)]="data.TOTAL_SEATS" required />
+
+
+                                    </nz-form-control>
+
+                                </div>
+                            </div>
+
+                            <div nz-row>
+                                <div nz-col nzSpan="6">
+
+                                    <nz-form-label nzRequired nzNoColon>Available Seats </nz-form-label>
+                                    <nz-form-control nzHasFeedback nzErrorTip="Please Enter Available Seats">
+
+                                        <input maxlength="5" name="available_seats" (keypress)="omit($event)"
+                                            [(ngModel)]="data.AVAILABLE_SEATS" required />
+
+
+
+                                    </nz-form-control>
+
+                                </div>
+                            </div>
+
+
+
+               
+                      
+                 </div> -->
+    </nz-spin>
+  </form>
+
+  <div class="footer">
+    <button
+      type="button"
+      nz-button
+      (click)="close()"
+      class="ant-btn"
+      style="margin-right: 8px"
+    >
+      <span> Cancel </span>
+    </button>
+
+    <button
+      type="button"
+      nz-button
+      (click)="showModal()"
+      *ngIf="!data.ID"
+      class="ant-btn"
+      [nzLoading]="isSpinning"
+      style="margin-right: 8px"
+      nzType="primary"
+    >
+      <span>Preview</span>
+    </button>
+
+    <button
+      type="button"
+      nz-button
+      (click)="editimage()"
+      *ngIf="data.ID"
+      class="ant-btn"
+      [nzLoading]="isSpinning"
+      style="margin-right: 8px"
+      nzType="primary"
+    >
+      <span>Preview</span>
+    </button>
+
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      *ngIf="!data.ID"
+      nz-button
+      nz-dropdown
+      [nzDropdownMenu]="menu1"
+      [nzLoading]="isSpinning"
+      (click)="save(false, Showmasterform)"
+    >
+      <span> Save & Close</span>
+    </button>
+    <nz-dropdown-menu #menu1="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          class="menuc"
+          style="border-radius: 4px; background-color: #40a9ff"
+        >
+          <a style="color: white" (click)="save(true, Showmasterform)">
+            Save & New
+          </a>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      nz-button
+      [nzLoading]="isSpinning"
+      *ngIf="data.ID"
+      (click)="save(false, Showmasterform)"
+    >
+      <span> Update & Close</span>
+    </button>
+  </div>
+</div>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="previewLayout"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+  [nzWidth]="1200"
+>
+  <ng-container *nzModalContent>
+    <div style="height: 350px; overflow-y: scroll">
+      <nz-spin [nzSpinning]="loadmodal">
+        <div>
+          <img style="width: 100%" [src]="Imgurldata" />
+        </div>
+      </nz-spin>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+  </div>
+  <ng-template #previewLayout>
+    <b>Theater Preview Layout</b>
+  </ng-template>
+</nz-modal>
