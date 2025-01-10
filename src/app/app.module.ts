@@ -114,6 +114,16 @@ import { AddDistributeMasterComponent } from './pages/DistributeMaster/add-distr
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { OfflinePaymentProcessComponent } from './pages/offline-payment-process/offline-payment-process.component';
 import { BookingConfirmReportComponent } from './Reports/booking-confirm-report/booking-confirm-report.component';
+import { CasteMasterListComponent } from './pages/CasteMaster/caste-master-list/caste-master-list.component';
+import { BannerMasterListComponent } from './pages/BannerMaster/banner-master-list/banner-master-list.component';
+import { AddCasteComponent } from './pages/CasteMaster/add-caste/add-caste.component';
+import { CasteMaster } from './Models/CasteMaster';
+import { AddBannerComponent } from './pages/BannerMaster/add-banner/add-banner.component';
+import { TicketGenerationComponent } from './pages/TicketMaster/ticket-generation/ticket-generation.component';
+import { TicketDetailsComponent } from './pages/TicketMaster/ticket-details/ticket-details.component';
+
+
+
 registerLocaleData(en);
 
 @NgModule({
@@ -176,7 +186,14 @@ registerLocaleData(en);
     DistributeMasterComponent,
     AddDistributeMasterComponent,
     OfflinePaymentProcessComponent,
-    BookingConfirmReportComponent
+    BookingConfirmReportComponent,
+    CasteMasterListComponent,
+    BannerMasterListComponent,
+    AddCasteComponent,
+    AddBannerComponent,
+    TicketGenerationComponent,
+    TicketDetailsComponent,
+    
   ],
 
   imports: [
@@ -225,7 +242,7 @@ registerLocaleData(en);
     NzPopconfirmModule,
     ColorPickerModule,
     NzImageModule ,
-    PdfViewerModule
+    PdfViewerModule,
     // NgxPrintModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, DatePipe],

@@ -1,0 +1,90 @@
+<div>
+  <form nz-form #ticketForm="ngForm">
+   
+      <div nz-row class="my-box1" style="width: 100%">
+        <div nz-col nzSpan="24">
+          
+          <!-- Drama Selection -->
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Drama</nz-form-label>
+              <nz-form-control nzHasFeedback nzErrorTip="Please Select Drama">
+                <select
+                  nz-select
+                  name="drama"
+                  [(ngModel)]="ticketData.drama"
+                  required
+                  placeholder="Select Drama"
+                >
+                  <option *ngFor="let drama of dramas" [value]="drama">{{ drama }}</option>
+                </select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Name Field -->
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Name</nz-form-label>
+              <nz-form-control nzHasFeedback nzErrorTip="Please Enter Name">
+                <input
+                  nz-input
+                  name="name"
+                  [(ngModel)]="ticketData.name"
+                  maxlength="128"
+                  required
+                  placeholder="Enter Your Name"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Number of Tickets -->
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Number of Tickets</nz-form-label>
+              <nz-form-control nzHasFeedback nzErrorTip="Please Enter Number of Tickets">
+                <input
+                  nz-input
+                  name="noOfTickets"
+                  [(ngModel)]="ticketData.noOfTickets"
+                  type="number"
+                  required
+                  placeholder="Enter Number of Tickets"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Time of Show -->
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon>Time of Show</nz-form-label>
+              <nz-form-control nzHasFeedback nzErrorTip="Please Enter Time of Show">
+                <input
+                  nz-input
+                  name="showTime"
+                  [(ngModel)]="ticketData.showTime"
+                  type="time"
+                  required
+                  placeholder="Enter Show Time"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+        </div>
+      </div>
+   
+
+    <!-- Book Button -->
+    <button
+      type="button"
+      nz-button
+      (click)="bookTicket(ticketForm)"
+      class="ant-btn ant-btn-primary"
+    >
+      <span>Book Ticket</span>
+    </button>
+  </form>
+</div>

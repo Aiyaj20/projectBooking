@@ -33,6 +33,9 @@ import { ShowSummaryReportComponent } from './Reports/show-summary-report/show-s
 import { DistributeMasterComponent } from './pages/DistributeMaster/distribute-master/distribute-master.component';
 import { OfflinePaymentProcessComponent } from './pages/offline-payment-process/offline-payment-process.component';
 import { BookingConfirmReportComponent } from './Reports/booking-confirm-report/booking-confirm-report.component';
+import { CasteMasterListComponent } from './pages/CasteMaster/caste-master-list/caste-master-list.component';
+import { BannerMasterListComponent } from './pages/BannerMaster/banner-master-list/banner-master-list.component';
+import { TicketGenerationComponent } from './pages/TicketMaster/ticket-generation/ticket-generation.component';
 
 // import { CartComponent } from './pages/CartMaster/cart/cart.component';
 
@@ -96,6 +99,9 @@ const routes: Routes = [
     component: OfflinePaymentProcessComponent,
   },
   { path: 'bookingconfirmreport', component: BookingConfirmReportComponent },
+  {path:'caste-master',component:CasteMasterListComponent},
+  {path:'banner-master',component:BannerMasterListComponent},
+  {path:'ticket-generation',component:TicketGenerationComponent}
 ];
 
 @NgModule({

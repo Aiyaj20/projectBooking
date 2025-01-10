@@ -1,0 +1,320 @@
+<div nz-row nzType="flex">
+    <div nz-col nzXs="24" nzSm="10" nzMd="10" nzLg="10" nzXl="10">
+      <div class="formname">
+        <b> {{ formTitle }} </b>
+      </div>
+    </div>
+  
+    <div
+      nz-col
+      nzXs="24"
+      nzSm="14"
+      nzMd="14"
+      nzLg="14"
+      nzXl="14"
+      style="display: flex; justify-content: flex-end"
+    >
+      <form nz-form [nzLayout]="'inline'">
+        <nz-form-item>
+          <!-- <button nz-button nzType="primary" [appExport]="listOfData1" id="downloadExcel" (click)="DownloadExcel()"
+            [nzLoading]="loadingRecords" fileName="Dramamaster"><i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          </button> -->
+  
+          <!-- <button nz-button nzType="primary" [nzLoading]="loadingRecords" (click)="DownloadExcel()">
+            <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          </button>
+  
+          <button nz-button nzType="primary" hidden="true" [nzLoading]="loadingRecords" id="downloadExcel"
+            [appExport]="listOfData1" fileName="Dramamaster">
+            <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          </button> -->
+  
+          <button
+            nz-button
+            nzType="primary"
+            *ngIf="listOfData.length > 0"
+            [appExport]="listOfData"
+            (click)="DownloadExcel()"
+            [nzLoading]="loadingRecords"
+            fileName="Theater"
+          >
+            <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          </button>
+        
+        </nz-form-item>
+        <nz-form-item>
+          <button nz-button [nzType]="isFilterApplied" (click)="showFilter()">
+            <i nz-icon nzType="filter"></i>
+          </button>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+            <input
+              type="text"
+              name="postsearch"
+              (keyup)="keyup($event)"
+              [(ngModel)]="searchText"
+              nz-input
+              autocomplete="off"
+              placeholder="Search Records"
+            />
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" (click)="search(true)" nzSearch>
+              <i nz-icon nzType="search"></i>
+            </button>
+          </ng-template>
+        </nz-form-item>
+        <nz-form-item>
+          <button
+            nz-button
+            nzType="primary"
+            (click)="add()"
+            nzJustify="end"
+          >
+            <i nz-icon nzType="plus"></i>Add New Banner
+          </button>
+        </nz-form-item>
+      </form>
+    </div>
+  </div>
+  
+  <div nz-row style="display: flex; justify-content: center; margin-top: 10px;">
+    <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+      <div style="text-align: center">
+        <div nz-row (click)="clickevent('A')">
+          <div
+            nz-col
+            nzSpan="6"
+            style="
+              border: 1px solid blue;
+              padding: 5px;
+              border-radius: 5px 0 0 5px;
+              background-color: rgb(205, 205, 249);
+              font-size: 12px;
+            "
+          >
+            <span *ngIf="enabled != undefined && enabled != null">{{
+              enabled
+            }}</span>
+          </div>
+          <div
+            nz-col
+            nzSpan="18"
+            [ngStyle]="
+              showcolor0 == 1
+                ? { background: 'rgb(158 158 209)' }
+                : { background: ' rgb(227, 227, 249)' }
+            "
+            style="
+              border: 1px solid blue;
+              padding: 5px;
+              margin-left: -1px;
+              border-radius: 0 5px 5px 0;
+              background-color: rgb(227, 227, 249);
+              font-size: 12px;
+            "
+          >
+            <!-- All -->
+            <span (ngModelChange)="clickevent('A')">Enabled</span>
+            <!-- <button (ngModelChange)="clickevent('all')" name="APPROVAL_STATUS" [(ngModel)]="APPROVAL_STATUS" ></button>   -- -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div nz-col nzSpan="4" style="padding: 5px; cursor: pointer">
+      <div style="text-align: center">
+        <div nz-row (click)="clickevent('D')">
+          <div
+            nz-col
+            nzSpan="6"
+            style="
+              border: 1px solid blue;
+              padding: 5px;
+              border-radius: 5px 0 0 5px;
+              background-color: rgb(205, 205, 249);
+              font-size: 12px;
+            "
+          >
+            <span *ngIf="disabled != undefined && disabled != null">{{
+              disabled
+            }}</span>
+          </div>
+          <div
+            nz-col
+            nzSpan="18"
+            [ngStyle]="
+              showcolor1 == 1
+                ? { background: 'rgb(158 158 209)' }
+                : { background: ' rgb(227, 227, 249)' }
+            "
+            style="
+              border: 1px solid blue;
+              padding: 5px;
+              margin-left: -1px;
+              border-radius: 0 5px 5px 0;
+              background-color: rgb(227, 227, 249);
+              font-size: 12px;
+            "
+          >
+            <!-- All -->
+            <span (ngModelChange)="clickevent('D')">Disabled</span>
+            <!-- <button (ngModelChange)="clickevent('all')" name="APPROVAL_STATUS" [(ngModel)]="APPROVAL_STATUS" ></button>   -- -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div nz-row style="margin-top: 10px;">
+    <div nz-col nzSpan="24">
+      <div class="filter {{ filterClass }}">
+        <div class="filter-box">
+          <form nz-form>
+            <div nz-row nzGutter="8">
+              <div nz-col nzSpan="6">
+                <nz-form-label nzNoColon><b>Select City</b></nz-form-label>
+                <nz-form-item>
+                  <nz-select
+                    nz-input
+                    name="cityselect"
+                    [(ngModel)]="cityid"
+                    nzPlaceHolder="Select City"
+                    nzAllowClear
+                    nzShowSearch
+                  >
+                    <nz-option
+                      *ngFor="let option of cities"
+                      [nzValue]="option.ID"
+                      [nzLabel]="option.NAME"
+                    ></nz-option>
+                  </nz-select>
+                </nz-form-item>
+              </div>
+  
+              <div nz-col nzSpan="8">
+                <nz-form-label nzNoColon></nz-form-label>
+                <nz-form-item style="margin-left: 10px">
+                  <button
+                    style="margin-right: 10px"
+                    nz-button
+                    [nzLoading]="isSpinning"
+                    nzType="primary"
+                    (click)="applyFilter()"
+                    nzJustify="end"
+                  >
+                    <i nz-icon nzType="filter"></i>Apply filter
+                  </button>
+                  <button nz-button nzType="primary" (click)="clearFilter()">
+                    <i nz-icon nzType="filter"></i>Clear Filter
+                  </button>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div nz-row style="margin-top: 10px;">
+    <div nz-col nzSpan="24">
+        <nz-table
+        class="my-scroll no-wrap1"
+        nzBordered
+        #contactInfoTable
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="dataList"
+        [nzScroll]="{ x: '1700px', y: '420px' }"
+        [nzLoading]="loadingRecords"
+        [nzSize]="'small'"
+        [nzTotal]="totalRecords"
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        (nzPageIndexChange)="search()"
+        (nzPageSizeChange)="search(true)"
+        (nzQueryParams)="sort($event)"
+      >
+        <thead>
+          <tr>
+            <th nzWidth="15px" style="text-align: center" nzLeft>
+              <b>Action</b>
+            </th>
+            <th nzWidth="15px" style="text-align: center" nzLeft>
+                <b>Sequence No.</b>
+              </th>
+              <th nzColumnKey="PROFILE_IMAGE" nzWidth="30px" style="text-align: center">
+                <b>Image</b>
+              </th>
+              <th nzWidth="15px" style="text-align: center" >
+                <b>Status</b>
+              </th>
+            <th nzWidth="15px" style="text-align: center" >
+              <b>Show Id</b>
+            </th>
+        
+            <th nzColumnKey="DESCRIPTION" nzWidth="50px" style="text-align: center">
+              <b>Description</b>
+            </th>
+          </tr>
+        </thead>
+        <tbody style="text-align: center">
+          <tr *ngFor="let data of listOfData">
+            <td style="text-align: center" nzLeft>
+              <a (click)="edit(data)">Edit</a>
+            </td>
+            <td nzLeft nz-tooltip  nzTooltipPlacement="top">
+              {{ data.SEQUENCE_NO }}
+            </td>
+            <td style="text-align: center">
+              <img [src]="data.IMAGE" alt="Profile Image" width="50" height="50" />
+            </td>
+            <td>{{ data.STATUS}}</td>
+            <td>{{ data.SHOW_ID }}</td>
+        
+            <td  style="
+            white-space: pre-line;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          ">{{ data.DESCRIPTION }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+      
+    </div>
+  </div>
+  
+  <div *ngIf="drawerVisible">
+    <nz-drawer
+      [nzBodyStyle]="{
+        height: 'calc(100% - 55px)',
+        overflow: 'auto',
+        'padding-bottom': '53px'
+      }"
+      [nzClosable]="true"
+      [nzMask]="true"
+      [nzMaskClosable]="false"
+      [nzWidth]="450"
+      [nzVisible]="drawerVisible"
+      [nzTitle]="drawerTitletemplate"
+      (nzOnClose)="drawerClose()"
+      (nzKeyboard)="(true)"
+    >
+      <ng-container *nzDrawerContent>
+        <app-add-banner
+          [drawerClose]="closeCallback1"
+          [drawerVisible]="drawerVisible"
+          [data]="drawerData"
+        ></app-add-banner>
+      </ng-container>
+      <ng-template #drawerTitletemplate>
+        <b>{{ drawerTitle }}</b>
+      </ng-template>
+    </nz-drawer>
+  </div>
+  
+ 
+  
