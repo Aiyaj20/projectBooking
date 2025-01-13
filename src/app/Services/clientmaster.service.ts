@@ -2455,4 +2455,67 @@ export class ClientmasterService {
       this.options
     );
   }
+// Cast Master
+
+  getCasteMaster(
+    pageIndex: number,
+    pageSize: number,
+    sortKey: string,
+    sortValue: string,
+    filter: string
+  ): Observable<any> {
+    var data = {
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+      sortKey: sortKey,
+      sortValue: sortValue,
+      filter: filter,
+    };
+    this.getheader();
+    return this.httpClient.post<any>(
+      this.url + 'cast/get/',
+      JSON.stringify(data),
+      this.options
+    );
+  }
+  getCastemasterscount(
+    pageIndex: number,
+    pageSize: number,
+    sortKey: string,
+    sortValue: string,
+    filter: string
+  ): Observable<any> {
+    var data = {
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+      sortKey: sortKey,
+      sortValue: sortValue,
+      filter: filter,
+    };
+    this.getheader();
+    return this.httpClient.post<any>(
+      this.url + 'cast/get',
+      JSON.stringify(data),
+      this.options
+    );
+  }
+  createCastemaster(role: any): Observable<any> {
+    role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+    return this.httpClient.post<any>(
+      this.url + 'cast/create/',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  updateCastemaster(role: any): Observable<any> {
+    this.getheader();
+
+    return this.httpClient.put<any>(
+      this.url + 'cast/update',
+      JSON.stringify(role),
+      this.options
+    );
+  }
 }

@@ -22,6 +22,9 @@ export class AddBannerComponent implements OnInit {
     @Input()
     InupuDisabled:boolean = false;
     imgUrl = appkeys.retriveimgUrl;
+
+    shows: any[] = [];
+
   isSpinning = false;
   isOk = true;
   fileURL: any;
@@ -32,6 +35,14 @@ export class AddBannerComponent implements OnInit {
    ) {}
 
   ngOnInit(): void {
+  
+      this.api
+        .getmaster(0, 0, '', '', '')
+        .subscribe((data: any) => {
+          this.shows=data.data;
+          console.log("show master",data);
+        });
+    
   }
   
   close(): void {

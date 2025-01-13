@@ -12,7 +12,7 @@
                   <nz-form-label nzRequired nzNoColon>Caste Name</nz-form-label>
                   <nz-form-control
                     nzHasFeedback
-                    nzErrorTip="Please Enter Caste Name"
+                    nzErrorTip="Please Enter Cast Name"
                   >
                     <input
                       nz-input
@@ -20,7 +20,7 @@
                       [(ngModel)]="data.NAME"
                       maxlength="128"
                       required
-                      placeholder="Enter Caste Name"
+                      placeholder="Enter Cast Name"
                     />
                   </nz-form-control>
                 </nz-form-item>
@@ -68,8 +68,8 @@
   
               
               </div>
-
-              <div nz-col nzSpan="24">
+              <div nz-row>
+              <div nz-col nzSpan="12">
                 <nz-form-item>
                   <nz-form-label nzRequired nzNoColon>Birth Place</nz-form-label>
                   <nz-form-control
@@ -86,6 +86,25 @@
                     />
                   </nz-form-control>
                 </nz-form-item>
+              </div>
+              <div nz-col nzSpan="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Sequence Number</nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip="Please Enter Sequence Number"
+                  >
+                    <input
+                      nz-input
+                      name="SequenceNumber"
+                      [(ngModel)]="data.SEQUENCE_NUMBER"
+                      maxlength="128"
+                      required
+                      placeholder="Enter Sequence Number"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
               </div>
               
               <div nz-col nzSpan="24">
@@ -124,8 +143,8 @@
                 </div>
               
                 <!-- Display Image Name and Delete Button if image is selected -->
-                <div *ngIf="selectedImageName" nz-col nzSpan="12" style="display: flex; align-items: center;">
-                  <p>{{ selectedImageName }}</p>
+                <div *ngIf="data.PROFILE_IMAGE" nz-col nzSpan="12" style="display: flex; align-items: center;">
+                  <p>{{ data.PROFILE_IMAGE }}</p>
                   <button
                     (click)="deleteImage()"
                     [nzSize]="'default'"
@@ -170,6 +189,7 @@
         nz-button
         nz-dropdown
         [nzDropdownMenu]="menu"
+        
         [nzLoading]="isSpinning"
         (click)="save(false, websitebannerPage)"
       >

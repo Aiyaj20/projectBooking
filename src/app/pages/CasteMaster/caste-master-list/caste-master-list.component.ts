@@ -13,7 +13,7 @@ import { ClientmasterService } from 'src/app/Services/clientmaster.service';
 })
 export class CasteMasterListComponent implements OnInit {
   searchValue: string = '';
-  formTitle:string="Caste Details"
+  formTitle:string="Cast Details"
   layoutVisible = false;
 
 
@@ -44,13 +44,13 @@ export class CasteMasterListComponent implements OnInit {
     drawerData:any;
     pdfurl = '';
  columns: string[][] = [
-    ['CITY_NAME', ' City Name'],
-    ['NAME', ' Theater Name'],
-    ['ADDRESS', 'Theater Address'],
-    ['LONGITUDE  ', ' Longitude '],
-    ['LATITUDE', ' Latitude'],
-    ['SEQUENCE_NUMBER', 'Sequence No'],
-    ['STATUS', 'status'],
+    ['NAME', 'Cast Name'],
+    ['PROFILE', ' Profile Image'],
+    ['DOB', 'Date of Birth'],
+    ['NICK_NAME  ', ' Nick Name '],
+    ['BIRTH_PLACE', ' Birth Place'],
+    ['DESCRIPTION', 'Description'],
+  
   ];
   userId: any;
   theatreId: any;
@@ -64,32 +64,31 @@ export class CasteMasterListComponent implements OnInit {
 
 
   listOfData: any[] = [
-    {
-      ID: 1,
-      NAME: 'John Doe',
-      PROFILE_IMAGE: 'assets/profile1.jpg',
-      DOB: new Date(1990, 1, 15),
-      NICKNAME: 'Johnny',
-      BIRTHPLACE: 'New York, USA',
-      DESCRIPTION: 'A software engineer with 5 years of experience in full stack development.'
-    },
-    {
-      ID: 2,
-      NAME: 'Jane Smith',
-      PROFILE_IMAGE: 'assets/profile2.jpg',
-      DOB: new Date(1992, 4, 30),
-      NICKNAME: 'Janie',
-      BIRTHPLACE: 'Los Angeles, USA',
-      DESCRIPTION: 'Graphic designer specializing in UX/UI design and branding.'
-    },
-    // Additional data entries...
   ];
 
   filteredData: any[] = [];
 
 
   ngOnInit(): void {
-    this.filteredData = [...this.listOfData]; // Initialize filtered data
+    // this.filteredData = [...this.listOfData]; // Initialize filtered data
+
+    
+      this.api.getCasteMaster(0, 0, '', '', ' ').subscribe(
+        (data) => {
+          if (data['code'] == 200) {
+            this.listOfData=data.data;
+         console.log("caste Master");
+          } else {
+            this.message.error("Can't Load City Name", '');
+  
+           
+          }
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    
   }
 
   onSearch(): void {
@@ -118,7 +117,7 @@ export class CasteMasterListComponent implements OnInit {
   keyup(event: any) {
     this.search();
   }
-  extraFilter: any;
+  extraFilter: any='';
 
   search(reset: boolean = false) {
     if (reset) {
@@ -143,22 +142,22 @@ export class CasteMasterListComponent implements OnInit {
       likeQuery = likeQuery.substring(0, likeQuery.length - 2) + ')';
     }
 
-    if (this.userId != 1) {
-      if (
-        this.theatreId != undefined ||
-        this.theatreId != null ||
-        this.theatreId != ''
-      ) {
-        this.extraFilter = ' AND ID in(' + this.theatreId + ')';
-      } else {
-        this.extraFilter = ' AND ID in(' + 0 + ')';
-      }
-    } else {
-      this.extraFilter = '';
-    }
+    // if (this.userId != 1) {
+    //   if (
+    //     this.theatreId != undefined ||
+    //     this.theatreId != null ||
+    //     this.theatreId != ''
+    //   ) {
+    //     this.extraFilter = ' AND ID in(' + this.theatreId + ')';
+    //   } else {
+    //     this.extraFilter = ' AND ID in(' + 0 + ')';
+    //   }
+    // } else {
+    //   this.extraFilter = '';
+    // }
 
     this.api
-      .getTheatreMaster(
+      .getCasteMaster(
         this.pageIndex,
         this.pageSize,
         this.sortKey,
@@ -169,7 +168,7 @@ export class CasteMasterListComponent implements OnInit {
         (data) => {
           // this.loadingRecords = false;
           this.totalRecords = data['count'];
-          this.dataList = data['data'];
+          this.dataList = data.data;
           this.listOfData1 = data['data'];
           if (this.totalRecords == 0) {
             data.SEQUENCE_NUMBER = 1;
@@ -177,11 +176,11 @@ export class CasteMasterListComponent implements OnInit {
             data.SEQUENCE_NUMBER =
               this.dataList[this.dataList.length - 1]['SEQUENCE_NUMBER'] + 1;
           }
-          var filter2=''
-          if(this.cityid){
-            filter2=' AND CITY_ID = '+this.cityid
-          }
-          this.api.getTheatreCounts(0, 0, '', '', filter2 + likeQuery + this.extraFilter).subscribe((counts) => {
+          // var filter2=''
+          // if(this.cityid){
+          //   filter2=' AND CITY_ID = '+this.cityid
+          // }
+          this.api.getCastemasterscount(0, 0, '', '',  likeQuery + this.extraFilter).subscribe((counts) => {
             if (counts.code == 200) {
 
               this.enabled = counts['data'][0]['ACTIVE'];
@@ -199,28 +198,28 @@ export class CasteMasterListComponent implements OnInit {
   }
   add()
   {
-     this.drawerTitle = 'Create New Caste';
+     this.drawerTitle = 'Create New Cast';
          this.drawerData = new CasteMaster();
       
-        // this.api.getTheatreMaster(1, 1, 'SEQUENCE_NUMBER', 'desc', '').subscribe(
-        //   (data) => {
-        //     if (data['count'] == 0) {
-        //       this.drawerData.SEQUENCE_NUMBER = 1;
-        //     } else {
-        //       this.drawerData.SEQUENCE_NUMBER =
-        //         data['data'][0]['SEQUENCE_NUMBER'] + 1;
-        //     }
-        //   },
-        //   (err) => {
-        //     console.log(err);
-        //   }
-        // );
+        this.api.getCasteMaster(1, 1, 'SEQUENCE_NUMBER', 'desc', '').subscribe(
+          (data) => {
+            if (data['count'] == 0) {
+              this.drawerData.SEQUENCE_NUMBER = 1;
+            } else {
+              this.drawerData.SEQUENCE_NUMBER =
+                data['data'][0]['SEQUENCE_NUMBER'] + 1;
+            }
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
     
         this.drawerVisible = true;
         console.log("drawer",this.drawerVisible);
   }
   DownloadExcel() {
-    // this.isOk = true;
+     this.isOk = true;
     this.isSpinning = true;
     var likeQuery = '';
 
@@ -232,44 +231,29 @@ export class CasteMasterListComponent implements OnInit {
       likeQuery = likeQuery.substring(0, likeQuery.length - 2) + ')';
     }
     if (this.totalRecords == 0) {
-      // this.isOk = false;
+      this.isOk = false;
       this.isSpinning = false;
       this.message.error('There is No Data Found..', '');
     }
-    // else {
-    //   this.api
-    //     .getTheatreMaster(0, 0, '', '', this.filterQuery + likeQuery + this.extraFilter)
-    //     .subscribe(
-    //       (data) => {
-    //         if (data['code'] == 200) {
-    //           this.totalRecords = data['count'];
-    //           this.listOfData1 = data['data'];
-    //           // for (let i = 0; i <= this.listOfData1.length; i++) {
-    //           //   if (
-    //           //     this.listOfData1[i]?.FROM_DATE != undefined &&
-    //           //     this.listOfData1[i]?.TO_DATE != undefined
-    //           //   ) {
-    //           //     this.listOfData1[i].FROM_DATE = this.datePipe.transform(
-    //           //       this.listOfData1[i]?.FROM_DATE,
-    //           //       'dd-MM-yyyy'
-    //           //     );
-    //           //     this.listOfData1[i].TO_DATE = this.datePipe.transform(
-    //           //       this.listOfData1[i]?.TO_DATE,
-    //           //       'dd-MM-yyyy'
-    //           //     );
-    //           //   }
-    //           // }
-
-    //           this.isSpinning = false;
-    //           const element = window.document.getElementById('downloadExcel');
-    //           if (element != null) element.click();
-    //         }
-    //       },
-    //       (err) => {
-    //         console.log(err);
-    //       }
-    //     );
-    // }
+    else {
+      this.api
+        .getCasteMaster(0, 0, '', '', this.filterQuery + likeQuery + this.extraFilter)
+        .subscribe(
+          (data) => {
+            if (data['code'] == 200) {
+              this.totalRecords = data['count'];
+              this.listOfData1 = data['data'];
+            
+              this.isSpinning = false;
+              const element = window.document.getElementById('downloadExcel');
+              if (element != null) element.click();
+            }
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    }
   }
   STATUS = 1;
   clickevent(data: any) {
@@ -352,7 +336,7 @@ export class CasteMasterListComponent implements OnInit {
   }
   imgUrl: any;
     edit(data: any): void {
-      this.drawerTitle = 'Update Caste';
+      this.drawerTitle = 'Update Cast';
       this.drawerData = Object.assign({}, data);
       this.drawerVisible = true;
       // this.url = appkeys.retriveimgUrl + '';
@@ -384,11 +368,11 @@ export class CasteMasterListComponent implements OnInit {
     }
 
     drawerClose(): void {
-      this.search();
+      this.search(true);
       this.drawerVisible = false;
     }
     drawerClose1(): void {
-      this.search();
+      this.search(true);
       this.drawerVisible1 = false;
     }
 
@@ -396,6 +380,8 @@ export class CasteMasterListComponent implements OnInit {
       this.layoutVisible = false;
     }
     close1(): void {
+      console.log("called from parent")
+      this.search();
       this.drawerClose();
     }
       //Drawer Methods
@@ -404,6 +390,7 @@ export class CasteMasterListComponent implements OnInit {
   }
   get closeCallback1() {
     return this.close1.bind(this);
+
   }
 
    sort(params: NzTableQueryParams) {

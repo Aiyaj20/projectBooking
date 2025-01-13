@@ -52,7 +52,7 @@ export class AppComponent {
       this.currentroute = arr[3];
     });
   }
-
+  isTicketGenerationRoute: boolean = false;
   checkpass() {
     this.api
       .getAllUsers(0, 0, 'ID', 'desc', ' AND ID=' + this.userId)
@@ -136,6 +136,12 @@ export class AppComponent {
   }
 
   ngOnInit() {
+
+    this.router.events.subscribe(() => {
+      const currentRoute = this.router.url;
+      this.isTicketGenerationRoute = currentRoute.includes('ticket-generation');
+    });
+  
     //Notification
     // this.requestPermission();
     // this.listen();

@@ -236,3 +236,10 @@ nz-form-item {
   nz-breadcrumb {
     margin: 16px 0;
   }
+
+
+  .full-width-layout {
+    margin-left: 0; /* Remove the margin that might be applied by the sidebar */
+    width: 100%;
+  }
+  

@@ -6,4 +6,5 @@ export class CasteMaster {
     NICKNAME: string = '';
     BIRTHPLACE: string = '';
     DESCRIPTION: string = '';
+    SEQUENCE_NUMBER:number=0;
 }

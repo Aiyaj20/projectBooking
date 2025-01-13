@@ -43,3 +43,45 @@
 .booking-form div {
   margin-bottom: 10px;
 }
+
+
+
+
+
+.row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  text-align: center;
+}
+
+.available {
+  background-color: green;
+  color: white;
+}
+
+.booked {
+  background-color: red;
+  color: white;
+  cursor: not-allowed;
+}
+
+.selected {
+  background-color: yellow;
+  color: black;
+}
+
+.gap {
+  background-color: gray;
+  cursor: not-allowed;
+}

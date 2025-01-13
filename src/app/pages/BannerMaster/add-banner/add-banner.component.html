@@ -5,6 +5,30 @@
         <div nz-row>
           <div nz-row class="my-box1" style="width: 100%">
             <div nz-col nzSpan="24">
+                 <!-- SHOW_ID Field -->
+                 <div nz-col nzSpan="24">
+
+                  <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon> Select Show </nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Please Select Show">
+                      <nz-select
+                        nz-input
+                        name="drama"
+                        [(ngModel)]="data.SHOW_ID"
+                        required
+                        nzAllowClear
+                        nzShowSearch
+                        placeholder="Select Show"
+                      >
+                        <nz-option *ngFor="let show of shows" [nzLabel]="show.DRAMA_NAME" [nzValue]="show.ID">
+                          {{ show.DRAMA_NAME }}
+                        </nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                  
+               
+                </div>
               <!-- DESCRIPTION Field -->
               <div nz-col nzSpan="24">
                 <nz-form-item>
@@ -73,25 +97,7 @@
 
               </div>
   
-                 <!-- SHOW_ID Field -->
-              <div nz-col nzSpan="24">
-                <nz-form-item>
-                  <nz-form-label nzNoColon>Show ID</nz-form-label>
-                  <nz-form-control
-                    nzHasFeedback
-                    nzErrorTip="Please Enter Show ID"
-                  >
-                    <input
-                      nz-input
-                      name="showId"
-                      [(ngModel)]="data.SHOW_ID"
-                      type="number"
-                      required
-                      placeholder="Enter Show ID"
-                    />
-                  </nz-form-control>
-                </nz-form-item>
-              </div>
+              
   
               <!-- Image Upload Section -->
               <div nz-col nzSpan="24" style="padding: 16px;">

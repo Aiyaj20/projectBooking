@@ -99,7 +99,7 @@ const routes: Routes = [
     component: OfflinePaymentProcessComponent,
   },
   { path: 'bookingconfirmreport', component: BookingConfirmReportComponent },
-  {path:'caste-master',component:CasteMasterListComponent},
+  {path:'cast-master',component:CasteMasterListComponent},
   {path:'banner-master',component:BannerMasterListComponent},
   {path:'ticket-generation',component:TicketGenerationComponent}
 ];

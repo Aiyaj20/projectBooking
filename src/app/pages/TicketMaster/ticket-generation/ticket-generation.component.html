@@ -1,46 +1,33 @@
 <div>
-  <form nz-form #ticketForm="ngForm">
-   
-      <div nz-row class="my-box1" style="width: 100%">
-        <div nz-col nzSpan="24">
-          
+  <form nz-form #ticketForm="ngForm" nzLayout="vertical">
+    <!-- Drama, Number of Tickets, and Time of Show Row -->
+    <div nz-row class="my-box1" style="width: 100%; box-sizing: border-box;">
+      <div nz-col nzSpan="24">
+        <nz-row nzGutter="16">
           <!-- Drama Selection -->
-          <div nz-col nzSpan="24">
+          <div nz-col nzSpan="8">
             <nz-form-item>
-              <nz-form-label nzRequired nzNoColon>Drama</nz-form-label>
+              <nz-form-label nzRequired nzNoColon> Select Drama </nz-form-label>
               <nz-form-control nzHasFeedback nzErrorTip="Please Select Drama">
-                <select
-                  nz-select
+                <nz-select
+                  nz-input
                   name="drama"
                   [(ngModel)]="ticketData.drama"
                   required
+                  nzAllowClear
+                  nzShowSearch
                   placeholder="Select Drama"
                 >
-                  <option *ngFor="let drama of dramas" [value]="drama">{{ drama }}</option>
-                </select>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <!-- Name Field -->
-          <div nz-col nzSpan="24">
-            <nz-form-item>
-              <nz-form-label nzRequired nzNoColon>Name</nz-form-label>
-              <nz-form-control nzHasFeedback nzErrorTip="Please Enter Name">
-                <input
-                  nz-input
-                  name="name"
-                  [(ngModel)]="ticketData.name"
-                  maxlength="128"
-                  required
-                  placeholder="Enter Your Name"
-                />
+                  <nz-option *ngFor="let drama of dramas" [nzLabel]="drama.name" [nzValue]="drama.id">
+                    {{ drama.name }}
+                  </nz-option>
+                </nz-select>
               </nz-form-control>
             </nz-form-item>
           </div>
 
           <!-- Number of Tickets -->
-          <div nz-col nzSpan="24">
+          <div nz-col nzSpan="8">
             <nz-form-item>
               <nz-form-label nzRequired nzNoColon>Number of Tickets</nz-form-label>
               <nz-form-control nzHasFeedback nzErrorTip="Please Enter Number of Tickets">
@@ -55,9 +42,10 @@
               </nz-form-control>
             </nz-form-item>
           </div>
-
+      
+          
           <!-- Time of Show -->
-          <div nz-col nzSpan="24">
+          <div nz-col nzSpan="8">
             <nz-form-item>
               <nz-form-label nzRequired nzNoColon>Time of Show</nz-form-label>
               <nz-form-control nzHasFeedback nzErrorTip="Please Enter Time of Show">
@@ -72,19 +60,39 @@
               </nz-form-control>
             </nz-form-item>
           </div>
+        </nz-row>
+      </div>
+    </div>
 
+    <!-- seat layout -->
+    <div *ngFor="let section of sections">
+      <h3>{{ section.SECTION_NAME }}</h3>
+      <div *ngFor="let row of section.ROWS">
+        <div class="row">
+          <div *ngFor="let seat of row.SEATS" 
+               [ngClass]="getSeatStyle(seat)" 
+               (click)="toggleSeatSelection(seat)" 
+               [class.disabled]="!canSelectSeat(seat)">
+            {{ seat.NAME }}
+          </div>
         </div>
       </div>
-   
-
+    </div>
+    
+    <p>You have selected {{ selectedSeatsCount }} out of {{ this.ticketData.noOfTickets }} seats.</p>
+    
     <!-- Book Button -->
-    <button
-      type="button"
-      nz-button
-      (click)="bookTicket(ticketForm)"
-      class="ant-btn ant-btn-primary"
-    >
-      <span>Book Ticket</span>
-    </button>
+    <div nz-row class="my-box1" style="width: 100%; margin-top: 20px;">
+      <div nz-col nzSpan="24" nzOffset="21">
+        <button
+          type="button"
+          nz-button
+          (click)="bookTicket(ticketForm)"
+          class="ant-btn ant-btn-primary"
+        >
+          <span>Book Ticket</span>
+        </button>
+      </div>
+    </div>
   </form>
 </div>
